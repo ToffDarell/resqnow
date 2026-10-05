@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: resqnow-api
+    runtime: docker
+    rootDir: api
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: ResQNow
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false          # php artisan key:generate --show
+      - key: APP_URL
+        sync: false          # https://resqnow-api.onrender.com
+      - key: DB_CONNECTION
+        value: mysql         # palitan ng pgsql kung Postgres (Neon/Supabase)
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "4000"      # TiDB
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: MYSQL_ATTR_SSL_CA
+        value: /etc/ssl/certs/ca-certificates.crt
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: RESPONDER_EMAIL     # optional: creates a responder account for the mobile app
+        sync: false
+      - key: RESPONDER_PASSWORD
+        sync: false
+      - key: RESPONDER_NAME
+        sync: false
+      - key: FRONTEND_URL   # mobile app URL (Vercel); password-reset emails link here
+        sync: false

@@ -1,0 +1,754 @@
+{
+  "contacts": [
+    {
+      "id": "barangay-emergency-hotline",
+      "group": "barangay",
+      "category": "Hotline",
+      "name": "Barangay Emergency Hotline",
+      "role": "Barangay Emergency Hotline",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09976920615",
+          "displayNumber": "0997 692 0615"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 0
+    },
+    {
+      "id": "barangay-captain",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Barangay Captain",
+      "role": "Barangay Captain",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09976920615",
+          "displayNumber": "0997 692 0615"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 1
+    },
+    {
+      "id": "kagawad-eva-p-sabado",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Eva P. Sabado",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09269074243",
+          "displayNumber": "0926 907 4243"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 2
+    },
+    {
+      "id": "kagawad-florina-m-pagulayan",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Florina M. Pagulayan",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09675500540",
+          "displayNumber": "0967 550 0540"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 3
+    },
+    {
+      "id": "kagawad-solita-m-noriega",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Solita M. Noriega",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 4
+    },
+    {
+      "id": "kagawad-roseller-g-casasola",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Roseller G. Casasola",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09067402510",
+          "displayNumber": "0906 740 2510"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 5
+    },
+    {
+      "id": "kagawad-remedios-c-fugaban",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Remedios C. Fugaban",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09155408153",
+          "displayNumber": "0915 540 8153"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 6
+    },
+    {
+      "id": "kagawad-ricardo-c-zipagan",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Ricardo C. Zipagan",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09525625876",
+          "displayNumber": "0952 562 5876"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 7
+    },
+    {
+      "id": "kagawad-albert-a-maramag",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Albert A. Maramag",
+      "role": "Kagawad",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09453665695",
+          "displayNumber": "0945 366 5695"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 8
+    },
+    {
+      "id": "secretary-gloria-d-candelaria",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Gloria D. Candelaria",
+      "role": "Barangay Secretary",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09657092802",
+          "displayNumber": "0965 709 2802"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 9
+    },
+    {
+      "id": "treasurer-shirley-m-aganinta",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Shirley M. Aganinta",
+      "role": "Barangay Treasurer",
+      "address": null,
+      "phoneNumbers": [],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 10
+    },
+    {
+      "id": "sk-chairperson-jomel-evans-p-sabado",
+      "group": "barangay",
+      "category": "Officials",
+      "name": "Jomel Evans P. Sabado",
+      "role": "SK Chairperson",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09758874427",
+          "displayNumber": "0975 887 4427"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 11
+    },
+    {
+      "id": "barangay-emergency-response-contact",
+      "group": "barangay",
+      "category": "Personnel",
+      "name": "Barangay Emergency Response",
+      "role": "Barangay Emergency Response Contact",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09067402510",
+          "displayNumber": "0906 740 2510"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": "Shared contact supplied for barangay emergency response, including rescue, health worker, and Tanod assistance.",
+      "sourceUrl": null,
+      "sourceLabel": "Barangay information supplied by the project team",
+      "sourceCheckedOn": null,
+      "sortOrder": 12
+    },
+    {
+      "id": "national-emergency",
+      "group": "emergency",
+      "category": "Hotline",
+      "name": "National Emergency Hotline",
+      "role": "Emergency assistance",
+      "address": null,
+      "phoneNumbers": [
+        {
+          "id": "short-code",
+          "label": "Hotline",
+          "number": "911",
+          "displayNumber": "911"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 13
+    },
+    {
+      "id": "ilagan-cdrrmo",
+      "group": "emergency",
+      "category": "Rescue",
+      "name": "CDRRMO — Rescue 1124",
+      "role": "Rescue / ambulance",
+      "address": "CDRRMO Building, City Hall, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "globe",
+          "label": "Globe",
+          "number": "09152341124",
+          "displayNumber": "0915 234 1124"
+        },
+        {
+          "id": "smart",
+          "label": "Smart",
+          "number": "09198443346",
+          "displayNumber": "0919 844 3346"
+        },
+        {
+          "id": "pldt",
+          "label": "PLDT",
+          "number": "0786240203",
+          "displayNumber": "(078) 624 0203"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/rescue1124",
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 14
+    },
+    {
+      "id": "ilagan-pnp",
+      "group": "emergency",
+      "category": "Police",
+      "name": "PNP — Ilagan City Police Station",
+      "role": "Main station",
+      "address": "PNP Building, San Vicente, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09171455432",
+          "displayNumber": "0917 145 5432"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/ilagancps.pcr",
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 15
+    },
+    {
+      "id": "ilagan-bfp",
+      "group": "emergency",
+      "category": "Fire",
+      "name": "BFP — Ilagan Fire Station",
+      "role": "Fire protection",
+      "address": "BFP Fire Station, San Vicente, City of Ilagan, Isabela (beside Ilagan Sports Complex)",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09530563939",
+          "displayNumber": "0953 056 3939"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/ilagancity.firestation.9",
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 16
+    },
+    {
+      "id": "ilagan-fire-volunteers",
+      "group": "emergency",
+      "category": "Fire",
+      "name": "Ilagan Fil-Chinese Fire Volunteers",
+      "role": "Volunteer fire service",
+      "address": "Paguirigan St., San Vicente, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09175797778",
+          "displayNumber": "0917 579 7778"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 17
+    },
+    {
+      "id": "ilagan-imac",
+      "group": "emergency",
+      "category": "Rescue",
+      "name": "Ilagan Mayor’s Action Center",
+      "role": "Listed under ambulance assistance",
+      "address": "IMAC Building, Calamagui 2nd, City of Ilagan, Isabela (beside INC Chapel)",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09151670129",
+          "displayNumber": "0915 167 0129"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/profile.php?id=100081504826312",
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 18
+    },
+    {
+      "id": "ilagan-cho-1",
+      "group": "health",
+      "category": "Medical",
+      "name": "City Health Office 1",
+      "role": "Health services",
+      "address": "CHO 1 Building, San Vicente, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "globe",
+          "label": "Globe",
+          "number": "09774638785",
+          "displayNumber": "0977 463 8785"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 19
+    },
+    {
+      "id": "ilagan-cho-2",
+      "group": "health",
+      "category": "Medical",
+      "name": "City Health Office 2",
+      "role": "Health services",
+      "address": "CHO 2 Building, National Highway, Marana 1st, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "globe",
+          "label": "Globe",
+          "number": "09178748988",
+          "displayNumber": "0917 874 8988"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 20
+    },
+    {
+      "id": "ilagan-medical-center",
+      "group": "health",
+      "category": "Medical",
+      "name": "City of Ilagan Medical Center",
+      "role": "Hospital",
+      "address": "Delfin Albano Road, Lullutan, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09999932534",
+          "displayNumber": "0999 993 2534"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/CityofIlaganMedicalCenter/",
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 21
+    },
+    {
+      "id": "iselco-ii-head",
+      "group": "community",
+      "category": "Electricity",
+      "name": "ISELCO II — Head Office",
+      "role": "Electricity service",
+      "address": "Alibagu, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "globe",
+          "label": "Globe",
+          "number": "09569946944",
+          "displayNumber": "0956 994 6944"
+        },
+        {
+          "id": "smart",
+          "label": "Smart",
+          "number": "09296634511",
+          "displayNumber": "0929 663 4511"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": "https://iselco2.com.ph/",
+      "email": "iselco2@yahoo.com",
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 22
+    },
+    {
+      "id": "iselco-ii-centro",
+      "group": "community",
+      "category": "Electricity",
+      "name": "ISELCO II — Centro Branch",
+      "role": "Electricity service",
+      "address": "Centro Poblacion, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09533051460",
+          "displayNumber": "0953 305 1460"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 23
+    },
+    {
+      "id": "ilagan-water",
+      "group": "community",
+      "category": "Water",
+      "name": "City of Ilagan Water District",
+      "role": "Water service",
+      "address": "CIWD Building, Osmeña, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "landline-1",
+          "label": "Landline 1",
+          "number": "0786240097",
+          "displayNumber": "(078) 624 0097"
+        },
+        {
+          "id": "landline-2",
+          "label": "Landline 2",
+          "number": "0786242083",
+          "displayNumber": "(078) 624 2083"
+        }
+      ],
+      "facebookUrl": "https://www.facebook.com/CityofIlaganWaterDistrict",
+      "messengerUrl": null,
+      "websiteUrl": "https://www.cityofilaganwaterdistrict.gov.ph/index.html",
+      "email": null,
+      "notes": "Area code 078 has been included for dialing the Ilagan landlines.",
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 24
+    },
+    {
+      "id": "ilagan-cgso",
+      "group": "community",
+      "category": "Maintenance",
+      "name": "City General Services Office",
+      "role": "Streetlight concerns",
+      "address": "CGSO Building, City Hall, City of Ilagan, Isabela",
+      "phoneNumbers": [
+        {
+          "id": "mobile",
+          "label": "Mobile",
+          "number": "09554133899",
+          "displayNumber": "0955 413 3899"
+        },
+        {
+          "id": "landline",
+          "label": "Landline",
+          "number": "0786240742",
+          "displayNumber": "(078) 624 0742"
+        }
+      ],
+      "facebookUrl": null,
+      "messengerUrl": null,
+      "websiteUrl": null,
+      "email": null,
+      "notes": null,
+      "sourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+      "sourceLabel": "City of Ilagan emergency directory",
+      "sourceCheckedOn": "2026-09-11",
+      "sortOrder": 25
+    }
+  ],
+  "meta": {
+    "schemaVersion": 1,
+    "barangayName": "Barangay Camunatan",
+    "cityName": "City of Ilagan",
+    "citySourceUrl": "https://cityofilagan.gov.ph/index.php/emergency-hotlines/",
+    "citySourceCheckedOn": "2026-09-11",
+    "barangaySource": "Information supplied by the project team; missing details remain unconfirmed."
+  },
+  "evacuationInformation": {
+    "nameAsProvided": "Camunatan and City Evacuation center",
+    "phoneNumbers": [
+      {
+        "id": "shared-contact",
+        "label": "Evacuation contact",
+        "number": "09067402510",
+        "displayNumber": "0906 740 2510"
+      }
+    ],
+    "capacityAsProvided": "200–300",
+    "capacityUnit": null,
+    "capacityScope": null,
+    "exactLocation": null,
+    "centerCount": null,
+    "notes": "Confirm the specific center, exact location, and whether the 200–300 capacity is per center or combined, and in people or families. Call the evacuation contact for details."
+  },
+  "barangayServices": {
+    "emergency": [
+      {
+        "title": "Flood rescue",
+        "description": "Rescue operations during flooding."
+      },
+      {
+        "title": "Advance evacuation",
+        "description": "Evacuation support for residents in low-lying areas."
+      },
+      {
+        "title": "First-aid supplies",
+        "description": "The barangay reports having emergency first-aid supplies for disasters."
+      }
+    ],
+    "nonEmergency": [
+      {
+        "title": "Streetlight repairs",
+        "description": "Report flickering, busted, or malfunctioning streetlights for neighborhood safety and night visibility.",
+        "concernCode": "damaged-facility",
+        "proposedDefaultPriority": "Low"
+      },
+      {
+        "title": "Minor infrastructure damage",
+        "description": "Report small potholes, broken drainage covers, damaged sidewalks, or unstable public stairways before they become serious hazards.",
+        "concernCode": "damaged-facility",
+        "proposedDefaultPriority": "Low"
+      },
+      {
+        "title": "Public facility maintenance",
+        "description": "Maintenance of barangay-owned community centers, sports courts, multi-purpose halls, and public restrooms.",
+        "concernCode": "damaged-facility",
+        "proposedDefaultPriority": "Low"
+      },
+      {
+        "title": "Public facility scheduling",
+        "description": "Request schedules for using barangay-owned community centers, sports courts, multi-purpose halls, and public restrooms.",
+        "concernCode": "community-concern",
+        "proposedDefaultPriority": "Low"
+      },
+      {
+        "title": "Road and walkway obstruction",
+        "description": "Report vehicles parked illegally on narrow roads, vendors blocking walkways, building materials on streets, or structures encroaching on public rights-of-way.",
+        "concernCode": "road-obstruction",
+        "proposedDefaultPriority": "Medium"
+      }
+    ],
+    "priorityNote": "These are proposed project defaults, not changes to the report controller. Barangay review and personnel assignment remain separate."
+  },
+  "communicationProcedure": {
+    "title": "How barangay advisories are shared",
+    "description": "After a memo from the LGU Office of the Mayor, the barangay conducts meetings and informs residents about disaster preparations.",
+    "channels": [
+      "Meetings",
+      "House-to-house visits",
+      "Roving megaphone announcements"
+    ],
+    "isCurrentAnnouncement": false
+  }
+}

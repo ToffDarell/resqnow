@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+/* ============ RESQNOW CIVIC COLOR SYSTEM ============ */
+:root {
+  /* Official Barangay identity */
+  --bgy-blue: #0B4F9C;
+  --bgy-navy: #073763;
+  --bgy-yellow: #FFC928;
+  --bgy-yellow-soft: #FFF4C2;
+  --bgy-red: #D92D20;
+  --bgy-orange: #F97316;
+  --bgy-green: #16A34A;
+  --bgy-bg: #F6F8FB;
+  --bgy-card: #FFFFFF;
+  --bgy-text: #1F2937;
+  --bgy-muted: #6B7280;
+  --bgy-border: #E5E7EB;
+
+  /* Existing token names are intentionally preserved.
+     This keeps the current component API stable while changing
+     the visual language from startup-violet to civic blue/yellow. */
+  --brand-violet: var(--bgy-blue);
+  --brand-mint: var(--bgy-green);
+  --brand-indigo: var(--bgy-navy);
+
+  --critical-rose: var(--bgy-red);
+  --alert-crimson: #B42318;
+
+  --caution-sun: var(--bgy-yellow);
+  --pending-amber: var(--bgy-orange);
+
+  --safe-mint: var(--bgy-green);
+  --info-sky: var(--bgy-blue);
+  --insight-periwinkle: #1D6ABF;
+
+  --warm-ivory: var(--bgy-bg);
+  --soft-blue-mist: #EEF4FA;
+  --card-white: var(--bgy-card);
+  --canvas-neutral: var(--bgy-bg);
+
+  --text-primary: var(--bgy-text);
+  --text-secondary: #374151;
+  --text-muted: var(--bgy-muted);
+  --text-placeholder: #9CA3AF;
+
+  --border-mist: #D1D5DB;
+  --border-soft: var(--bgy-border);
+
+  /* Secondary report-entry action. Emergency red is reserved
+     for explicit emergency actions, not generic navigation. */
+  --report-coral: var(--bgy-blue);
+  --report-amber: var(--bgy-navy);
+}
+
+/* ============ TAILWIND THEME ============ */
+@theme {
+  /* Civic brand */
+  --color-resqnow-violet: #0B4F9C;
+  --color-resqnow-mint: #16A34A;
+  --color-resqnow-indigo: #073763;
+
+  /* Emergency */
+  --color-resqnow-critical: #D92D20;
+  --color-resqnow-crimson: #B42318;
+
+  /* Warning & active response */
+  --color-resqnow-caution: #A16207;
+  --color-resqnow-pending: #F97316;
+
+  /* Status */
+  --color-resqnow-safe: #16A34A;
+  --color-resqnow-info: #0B4F9C;
+  --color-resqnow-insight: #1D6ABF;
+
+  /* Background */
+  --color-resqnow-ivory: #F6F8FB;
+  --color-resqnow-mist: #EEF4FA;
+  --color-resqnow-card: #FFFFFF;
+  --color-resqnow-canvas: #F6F8FB;
+
+  /* Text */
+  --color-resqnow-primary: #1F2937;
+  --color-resqnow-secondary: #374151;
+  --color-resqnow-muted: #6B7280;
+  --color-resqnow-placeholder: #9CA3AF;
+
+  /* Border */
+  --color-resqnow-border: #D1D5DB;
+  --color-resqnow-border-soft: #E5E7EB;
+
+  /* Generic report CTA */
+  --color-resqnow-coral: #0B4F9C;
+
+  /* Explicit civic aliases for new UI work */
+  --color-bgy-blue: #0B4F9C;
+  --color-bgy-navy: #073763;
+  --color-bgy-yellow: #FFC928;
+  --color-bgy-yellow-soft: #FFF4C2;
+  --color-bgy-red: #D92D20;
+  --color-bgy-orange: #F97316;
+  --color-bgy-green: #16A34A;
+  --color-bgy-bg: #F6F8FB;
+
+  /* ============ LEGACY ALIASES ============ */
+  --color-resqnow-red: #B42318;
+  --color-resqnow-orange: #F97316;
+  --color-resqnow-amber: #A16207;
+  --color-resqnow-green: #16A34A;
+  --color-resqnow-blue: #0B4F9C;
+  --color-resqnow-navy: #073763;
+  --color-resqnow-gray: #6B7280;
+}
+
+/* ============ SEMANTIC BACKGROUNDS ============ */
+/* Existing utility class names are preserved to avoid component churn.
+   The visual output is intentionally flat and civic rather than decorative. */
+.bg-brand-gradient {
+  background: var(--bgy-blue);
+}
+
+.bg-active-gradient {
+  background: var(--bgy-green);
+}
+
+.bg-emergency-gradient {
+  background: var(--bgy-red);
+}
+
+.bg-warning-gradient {
+  background: var(--bgy-yellow);
+  color: var(--bgy-navy);
+}
+
+.bg-info-gradient {
+  background: var(--bgy-blue);
+}
+
+.bg-report-gradient {
+  background: var(--bgy-blue);
+}
+
+/* ============ PAGE BACKGROUNDS ============ */
+.resqnow-page,
+.responder-page {
+  background: var(--bgy-bg);
+}
+
+/* ============ GLOBAL ============ */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bgy-bg);
+  color: var(--bgy-text);
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  @apply antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Visible keyboard focus without changing component APIs. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--bgy-yellow);
+  outline-offset: 2px;
+}
+
+/* ============ PAGE TRANSITION ============ */
+.resqnow-page-transition {
+  animation: resqnowPageEnter 160ms ease-out;
+}
+
+@keyframes resqnowPageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ NOTIFICATION BADGE ============ */
+.resqnow-badge-pop {
+  animation: resqnowBadgePop 220ms ease-out;
+}
+
+@keyframes resqnowBadgePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+  .resqnow-page-transition,
+  .resqnow-badge-pop {
+    animation: none;
+  }
+}
