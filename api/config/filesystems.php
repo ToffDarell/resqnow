@@ -1,5 +1,10 @@
 <?php
 
+$reportEvidenceRoot = env(
+    'REPORT_EVIDENCE_ROOT',
+    storage_path('app/public')
+);
+
 return [
 
     /*
@@ -17,6 +22,7 @@ return [
 
     // Use "s3" in production when durable object storage is configured.
     'report_evidence_disk' => env('REPORT_EVIDENCE_DISK', 'public'),
+    'report_evidence_root' => $reportEvidenceRoot,
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +49,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => $reportEvidenceRoot,
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
@@ -77,7 +83,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage') => $reportEvidenceRoot,
     ],
 
 ];
