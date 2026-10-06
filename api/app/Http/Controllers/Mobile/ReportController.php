@@ -546,7 +546,10 @@ class ReportController extends Controller
         $disk = Storage::disk($diskName);
         $photoUrl = config("filesystems.disks.{$diskName}.driver") === 's3'
             ? $disk->temporaryUrl($photoPath, now()->addMinutes(30))
-            : $disk->url($photoPath);
+            : rtrim($request->getSchemeAndHttpHost(), '/') . '/storage/' . implode(
+                '/',
+                array_map('rawurlencode', explode('/', ltrim($photoPath, '/')))
+            );
 
         return response()->json([
             'success' => true,

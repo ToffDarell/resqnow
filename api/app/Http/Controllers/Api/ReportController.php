@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $reports = Report::with([
             'user',
@@ -23,7 +23,7 @@ class ReportController extends Controller
             ->latest()
             ->get();
 
-        $reports->each(function (Report $report): void {
+        $reports->each(function (Report $report) use ($request): void {
             $diskName = $report->photo_disk
                 ?: config('filesystems.report_evidence_disk', 'public');
             $disk = Storage::disk($diskName);
@@ -34,7 +34,7 @@ class ReportController extends Controller
                 $report->photo_path
                     ? ($driver === 's3'
                         ? $disk->temporaryUrl($report->photo_path, now()->addMinutes(30))
-                        : $disk->url($report->photo_path))
+                        : $this->publicEvidenceUrl($request, $report->photo_path))
                     : null
             );
         });
@@ -44,6 +44,17 @@ class ReportController extends Controller
             'message' => 'Reports retrieved successfully.',
             'data' => $reports,
         ]);
+    }
+
+    /** Build local public-storage links from the active API host. */
+    private function publicEvidenceUrl(Request $request, string $path): string
+    {
+        $encodedPath = implode(
+            '/',
+            array_map('rawurlencode', explode('/', ltrim($path, '/')))
+        );
+
+        return rtrim($request->getSchemeAndHttpHost(), '/') . '/storage/' . $encodedPath;
     }
 
     public function forVerification(): JsonResponse

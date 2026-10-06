@@ -135,7 +135,7 @@ class ReportResource extends JsonResource
 
             // Resident-submitted evidence. S3 URLs are temporary;
             // the configured public disk returns its public URL.
-            'photoUrl' => $this->getPhotoUrl(),
+            'photoUrl' => $this->getPhotoUrl($request),
 
 
             // ============ BARANGAY INFORMATION ============
@@ -220,7 +220,7 @@ class ReportResource extends JsonResource
 
 
 
-    private function getPhotoUrl(): ?string
+    private function getPhotoUrl(Request $request): ?string
     {
         if (!$this->photo_path) {
             return null;
@@ -237,7 +237,12 @@ class ReportResource extends JsonResource
             );
         }
 
-        return $disk->url($this->photo_path);
+        $encodedPath = implode(
+            '/',
+            array_map('rawurlencode', explode('/', ltrim($this->photo_path, '/')))
+        );
+
+        return rtrim($request->getSchemeAndHttpHost(), '/') . '/storage/' . $encodedPath;
     }
 
     /**
