@@ -223,7 +223,7 @@ function Sidebar({
     <aside
       className={`
         fixed inset-y-0 left-0 z-50 flex h-dvh w-64 shrink-0 flex-col
-        bg-[#101C2E] text-white
+        bg-[#073763] text-white
         transition-transform duration-200 ease-out
         lg:static lg:z-auto lg:translate-x-0
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -232,7 +232,7 @@ function Sidebar({
       {/* BRAND */}
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-4">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#1F5FA6] to-[#0B4F9C] text-white shadow-sm ring-1 ring-white/20">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#0B4F9C] to-[#073763] text-white shadow-sm ring-1 ring-white/20">
             <ShieldAlert size={19} className="text-white" />
           </div>
 
@@ -241,7 +241,7 @@ function Sidebar({
               {systemSettings?.systemName || "ResQNow"}
             </div>
 
-            <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-wider text-[#38BDF8]">
+            <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-wider text-[#FFC928]">
               {t("barangayWebAdmin")}
             </p>
           </div>
@@ -281,7 +281,7 @@ function Sidebar({
                       rounded-lg px-3 text-left text-sm font-medium transition-all
                       ${
                         isActive
-                          ? "bg-gradient-to-r from-[#1F5FA6] to-[#174A86] text-white font-semibold shadow-sm shadow-[#1F5FA6]/30 border-l-[3px] border-[#38BDF8]"
+                          ? "bg-gradient-to-r from-[#0B4F9C] to-[#073763] text-white font-semibold shadow-sm shadow-[#0B4F9C]/30 border-l-[3px] border-[#FFC928]"
                           : "text-slate-300 hover:bg-white/8 hover:text-white"
                       }
                     `}
@@ -291,7 +291,7 @@ function Sidebar({
                       strokeWidth={isActive ? 2.2 : 1.75}
                       className={`shrink-0 transition-colors ${
                         isActive
-                          ? "text-[#38BDF8]"
+                          ? "text-[#FFC928]"
                           : "text-slate-400 group-hover:text-white"
                       }`}
                     />
@@ -306,7 +306,7 @@ function Sidebar({
       </nav>
 
       {/* BOTTOM AREA */}
-      <div className="shrink-0 space-y-2.5 border-t border-white/10 p-3 bg-[#0d1624]">
+      <div className="shrink-0 space-y-2.5 border-t border-white/10 p-3 bg-[#052850]">
         {canCreateReport && (
           <button
             type="button"
@@ -326,7 +326,7 @@ function Sidebar({
 
         {/* USER */}
         <div className="flex items-center gap-3 rounded-lg bg-white/5 px-2.5 py-2 ring-1 ring-white/5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1F5FA6] text-xs font-bold text-white shadow-sm ring-1 ring-white/20">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0B4F9C] text-xs font-bold text-white shadow-sm ring-1 ring-white/20">
             {initials}
           </div>
 

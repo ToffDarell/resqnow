@@ -6,58 +6,77 @@
 
 :root {
   /* =========================================
+     OFFICIAL BARANGAY CIVIC PALETTE
+     Synced with ResQNow-App/frontend/src/index.css
+  ========================================= */
+
+  /* Primary identity */
+  --bgy-blue:        #0B4F9C;
+  --bgy-navy:        #073763;
+  --bgy-yellow:      #FFC928;
+  --bgy-yellow-soft: #FFF4C2;
+  --bgy-red:         #D92D20;
+  --bgy-orange:      #F97316;
+  --bgy-green:       #16A34A;
+  --bgy-bg:          #F6F8FB;
+  --bgy-card:        #FFFFFF;
+  --bgy-text:        #1F2937;
+  --bgy-muted:       #6B7280;
+  --bgy-border:      #E5E7EB;
+
+  /* =========================================
      BRAND
   ========================================= */
-  --brand-primary: #1F5FA6;
-  --brand-mint: #00c9a7;
-  --brand-ink: #101C2E;
+  --brand-primary: var(--bgy-blue);
+  --brand-mint:    var(--bgy-green);
+  --brand-ink:     var(--bgy-navy);
 
   /* =========================================
      EMERGENCY
   ========================================= */
-  --critical-rose: #ff2d55;
-  --alert-crimson: #d90429;
+  --critical-rose:  var(--bgy-red);
+  --alert-crimson:  #B42318;
 
   /* =========================================
      REPORT ACTION
   ========================================= */
-  --report-coral: #ff5a36;
-  --report-amber: #ff8c42;
+  --report-coral: var(--bgy-blue);
+  --report-amber: var(--bgy-navy);
 
   /* =========================================
      WARNING / PENDING
   ========================================= */
-  --caution-sun: #ffb800;
-  --pending-amber: #ff8c42;
+  --caution-sun:   var(--bgy-yellow);
+  --pending-amber: var(--bgy-orange);
 
   /* =========================================
      STATUS
   ========================================= */
-  --safe-mint: #2ed47a;
-  --info-sky: #38bdf8;
-  --insight-periwinkle: #5B8DC9;
+  --safe-mint:          var(--bgy-green);
+  --info-sky:           var(--bgy-blue);
+  --insight-periwinkle: #1D6ABF;
 
   /* =========================================
      BACKGROUNDS
   ========================================= */
-  --warm-ivory: #F3F5F8;
-  --soft-blue-mist: #eef8ff;
-  --canvas-neutral: #F3F5F8;
-  --card-white: #ffffff;
+  --warm-ivory:      var(--bgy-bg);
+  --soft-blue-mist:  #EEF4FA;
+  --canvas-neutral:  var(--bgy-bg);
+  --card-white:      var(--bgy-card);
 
   /* =========================================
      TEXT
   ========================================= */
-  --text-primary: #101C2E;
-  --text-secondary: #344054;
-  --text-muted: #667085;
-  --text-placeholder: #98a2b3;
+  --text-primary:     var(--bgy-text);
+  --text-secondary:   #374151;
+  --text-muted:       var(--bgy-muted);
+  --text-placeholder: #9CA3AF;
 
   /* =========================================
      BORDERS
   ========================================= */
-  --border-mist: #d0d5dd;
-  --border-soft: #e4e7ec;
+  --border-mist: #D1D5DB;
+  --border-soft: var(--bgy-border);
 
   /* =========================================
      TYPOGRAPHY
@@ -76,6 +95,32 @@
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+   TAILWIND THEME — mirrors mobile app palette
+========================================= */
+@theme {
+  /* Civic brand */
+  --color-bgy-blue:        #0B4F9C;
+  --color-bgy-navy:        #073763;
+  --color-bgy-yellow:      #FFC928;
+  --color-bgy-yellow-soft: #FFF4C2;
+  --color-bgy-red:         #D92D20;
+  --color-bgy-orange:      #F97316;
+  --color-bgy-green:       #16A34A;
+  --color-bgy-bg:          #F6F8FB;
+  --color-bgy-card:        #FFFFFF;
+
+  /* Named aliases (resqnow-* matches mobile app) */
+  --color-resqnow-blue:    #0B4F9C;
+  --color-resqnow-navy:    #073763;
+  --color-resqnow-green:   #16A34A;
+  --color-resqnow-red:     #D92D20;
+  --color-resqnow-orange:  #F97316;
+  --color-resqnow-yellow:  #FFC928;
+  --color-resqnow-gray:    #6B7280;
+  --color-resqnow-insight: #1D6ABF;
 }
 
 /* =========================================

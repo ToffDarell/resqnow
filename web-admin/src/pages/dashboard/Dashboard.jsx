@@ -61,32 +61,32 @@ function getUpdateIcon(type) {
 
 function getIncidentIconStyle(type) {
   if (type === "success") {
-    return "bg-[#EDFFF5] text-[#2ED47A]";
+    return "bg-[#ECFDF3] text-[#16A34A]";
   }
 
   if (type === "info") {
-    return "bg-[#EEF8FF] text-[#38BDF8]";
+    return "bg-[#EEF4FA] text-[#0B4F9C]";
   }
 
-  return "bg-[#FFF0F3] text-[#D90429]";
+  return "bg-[#FFF0F3] text-[#D92D20]";
 }
 
 function getStatusBadgeStyle(status) {
   switch (status) {
     case "Resolved":
-      return "bg-[#EDFFF5] text-[#027A48]";
+      return "bg-[#ECFDF3] text-[#027A48]";
 
     case "Dispatched":
-      return "bg-[#EEF8FF] text-[#2563EB]";
+      return "bg-[#EEF4FA] text-[#0B4F9C]";
 
     case "In Progress":
-      return "bg-[#EAF1FA] text-[#1F5FA6]";
+      return "bg-[#EEF4FA] text-[#0B4F9C]";
 
     case "Pending Response":
-      return "bg-[#FFF0F3] text-[#D90429]";
+      return "bg-[#FFF0F3] text-[#D92D20]";
 
     default:
-      return "bg-[#FFF4EC] text-[#B54708]";
+      return "bg-[#FFF9E6] text-[#B54708]";
   }
 }
 
@@ -98,41 +98,41 @@ const statConfig = [
   {
     titleKey: "totalReports",
     icon: FileText,
-    accent: "#1F5FA6",
-    iconBg: "bg-[#EAF1FA]",
-    iconColor: "text-[#1F5FA6]",
+    accent: "#0B4F9C",
+    iconBg: "bg-[#EEF4FA]",
+    iconColor: "text-[#0B4F9C]",
   },
 
   {
     titleKey: "emergencyReports",
     icon: AlertTriangle,
-    accent: "#FF2D55",
+    accent: "#D92D20",
     iconBg: "bg-[#FFF0F3]",
-    iconColor: "text-[#FF2D55]",
+    iconColor: "text-[#D92D20]",
   },
 
   {
     titleKey: "nonEmergencyReports",
     icon: FileCheck2,
-    accent: "#38BDF8",
-    iconBg: "bg-[#EEF8FF]",
-    iconColor: "text-[#38BDF8]",
+    accent: "#1D6ABF",
+    iconBg: "bg-[#EEF4FA]",
+    iconColor: "text-[#1D6ABF]",
   },
 
   {
     titleKey: "pendingVerification",
     icon: ClipboardList,
-    accent: "#FF8C42",
+    accent: "#F97316",
     iconBg: "bg-[#FFF4EC]",
-    iconColor: "text-[#FF8C42]",
+    iconColor: "text-[#F97316]",
   },
 
   {
     titleKey: "resolvedReports",
     icon: Check,
-    accent: "#2ED47A",
-    iconBg: "bg-[#EDFFF5]",
-    iconColor: "text-[#2ED47A]",
+    accent: "#16A34A",
+    iconBg: "bg-[#ECFDF3]",
+    iconColor: "text-[#16A34A]",
   },
 ];
 
@@ -426,19 +426,19 @@ export default function Dashboard({
     {
       labelKey: "high",
       value: priorityCounts.High,
-      color: "bg-[#FF2D55]",
+      color: "bg-[#D92D20]",
     },
 
     {
       labelKey: "moderate",
       value: priorityCounts.Moderate,
-      color: "bg-[#FF8C42]",
+      color: "bg-[#F97316]",
     },
 
     {
       labelKey: "low",
       value: priorityCounts.Low,
-      color: "bg-[#38BDF8]",
+      color: "bg-[#0B4F9C]",
     },
   ];
 
@@ -483,7 +483,7 @@ export default function Dashboard({
           {/* DATE CARD */}
 
           <div className="hidden items-center gap-3 rounded-xl border border-[var(--border-mist)] bg-white px-3.5 py-2.5 shadow-sm md:flex">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAF1FA] text-[#1F5FA6]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EEF4FA] text-[#0B4F9C]">
               <CalendarDays size={19} />
             </div>
 
@@ -522,7 +522,7 @@ export default function Dashboard({
                       {t(stat.titleKey)}
                     </p>
 
-                    <p className="mt-1.5 text-[28px] font-extrabold leading-none text-[#101C2E]">
+                    <p className="mt-1.5 text-[28px] font-extrabold leading-none text-[#1F2937]">
                       {stat.value}
                     </p>
                   </div>
@@ -601,7 +601,7 @@ export default function Dashboard({
                     <button
                       type="button"
                       onClick={() => onNavigate?.("report-details", report)}
-                      className="shrink-0 rounded-lg bg-[#1F5FA6] px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-[#174A86] active:scale-95"
+                      className="shrink-0 rounded-lg bg-[#0B4F9C] px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-[#073763] active:scale-95"
                     >
                       View
                     </button>
@@ -635,7 +635,7 @@ export default function Dashboard({
                 </h2>
 
                 <div className="flex items-center gap-2 rounded-full bg-[#FFF0F3] px-3 py-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#FF2D55]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#D92D20]" />
 
                   <span className="text-sm font-semibold text-[#D90429]">
                     {activeIncident
@@ -742,7 +742,7 @@ export default function Dashboard({
                       <Check size={26} strokeWidth={2.5} />
                     </div>
 
-                    <h3 className="mt-1 text-base font-bold text-[#101C2E]">
+                    <h3 className="mt-1 text-base font-bold text-[#1F2937]">
                       {t("noActiveIncidents")}
                     </h3>
 
@@ -777,11 +777,11 @@ export default function Dashboard({
                       background:
                         priorityTotal > 0
                           ? `conic-gradient(
-                              #D90429 0deg ${(priorityCounts.Critical / priorityTotal) * 360}deg,
-                              #FF2D55 ${(priorityCounts.Critical / priorityTotal) * 360}deg ${
+                              #D92D20 0deg ${(priorityCounts.Critical / priorityTotal) * 360}deg,
+                              #B42318 ${(priorityCounts.Critical / priorityTotal) * 360}deg ${
                                 ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) * 360
                               }deg,
-                              #FF8C42 ${
+                              #F97316 ${
                                 ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) * 360
                               }deg ${
                                 ((priorityCounts.Critical +
@@ -790,7 +790,7 @@ export default function Dashboard({
                                   priorityTotal) *
                                 360
                               }deg,
-                              #38BDF8 ${
+                              #0B4F9C ${
                                 ((priorityCounts.Critical +
                                   priorityCounts.High +
                                   priorityCounts.Moderate) /
@@ -802,7 +802,7 @@ export default function Dashboard({
                     }}
                   >
                     <div className="absolute inset-[16px] flex flex-col items-center justify-center rounded-full bg-white shadow-xs">
-                      <span className="text-2xl font-black leading-none text-[#101C2E]">
+                      <span className="text-2xl font-black leading-none text-[#1F2937]">
                         {priorityTotal}
                       </span>
 
@@ -836,7 +836,7 @@ export default function Dashboard({
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs font-extrabold text-[#101C2E]">
+                          <span className="text-xs font-extrabold text-[#1F2937]">
                             {item.value}
                           </span>
                           <span className="min-w-[34px] rounded bg-white px-1.5 py-0.5 text-right text-[10px] font-bold text-slate-500 shadow-xs border border-slate-200/60">
@@ -870,7 +870,7 @@ export default function Dashboard({
                   text-sm font-semibold
                   text-[var(--brand-primary)]
                   transition
-                  hover:text-[#1F5FA6]
+                  hover:text-[#073763]
                 "
               >
                 {t("viewAllUpdates")} →
@@ -889,7 +889,7 @@ export default function Dashboard({
                   <button
                     type="button"
                     onClick={loadDashboardData}
-                    className="mt-3 text-sm font-semibold text-[#1F5FA6]"
+                    className="mt-3 text-sm font-semibold text-[#0B4F9C]"
                   >
                     {t("tryAgain")}
                   </button>
@@ -906,7 +906,7 @@ export default function Dashboard({
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                   <ClipboardList size={22} />
                 </div>
-                <p className="text-sm font-bold text-[#101C2E]">
+                <p className="text-sm font-bold text-[#1F2937]">
                   {t("noIncidentUpdates")}
                 </p>
                 <p className="mt-1 text-xs text-slate-400">
