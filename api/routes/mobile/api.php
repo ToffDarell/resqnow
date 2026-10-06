@@ -148,6 +148,20 @@ Route::middleware([
             'throttle:10,1'
         );
 
+        // Attach optional evidence after the report is created.
+        Route::post(
+            '/reports/{reportCode}/evidence',
+            [
+                ReportController::class,
+                'uploadEvidence',
+            ]
+        )->where(
+            'reportCode',
+            '^(EM|NE)-[0-9]{6}$'
+        )->middleware(
+            'throttle:10,1'
+        );
+
 
         // One Resident report.
         Route::get(

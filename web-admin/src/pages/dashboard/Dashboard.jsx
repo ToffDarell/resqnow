@@ -137,6 +137,7 @@ const statConfig = [
 ];
 
 export default function Dashboard({
+  onOpenReport,
   onNavigate,
   reportUpdates = {},
   autoRefresh = true,
@@ -600,7 +601,7 @@ export default function Dashboard({
 
                     <button
                       type="button"
-                      onClick={() => onNavigate?.("report-details", report)}
+                      onClick={() => onOpenReport?.(report)}
                       className="shrink-0 rounded-lg bg-[#0B4F9C] px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-[#073763] active:scale-95"
                     >
                       View

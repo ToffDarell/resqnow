@@ -123,6 +123,7 @@ class StoreEmergencyReportRequest extends FormRequest
                 'string',
                 'max:2000',
             ],
+
         ];
     }
 
@@ -176,6 +177,7 @@ class StoreEmergencyReportRequest extends FormRequest
 
             'description.max' =>
                 'The description must not exceed 2000 characters.',
+
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Support\ReportWorkflow;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ReportResource extends JsonResource
 {
@@ -132,20 +133,9 @@ class ReportResource extends JsonResource
 
             // ============ RESIDENT EVIDENCE ============
 
-            /*
-             * Preserve the current Resident behavior
-             * for now.
-             *
-             * Field evidence from responders will use
-             * a protected endpoint later.
-             */
-            'photoUrl' =>
-                $this->photo_path
-                    ? asset(
-                        'storage/' .
-                        $this->photo_path
-                    )
-                    : null,
+            // Resident-submitted evidence. S3 URLs are temporary;
+            // the configured public disk returns its public URL.
+            'photoUrl' => $this->getPhotoUrl(),
 
 
             // ============ BARANGAY INFORMATION ============
@@ -229,6 +219,26 @@ class ReportResource extends JsonResource
     }
 
 
+
+    private function getPhotoUrl(): ?string
+    {
+        if (!$this->photo_path) {
+            return null;
+        }
+
+        $diskName = $this->photo_disk
+            ?: config('filesystems.report_evidence_disk', 'public');
+        $disk = Storage::disk($diskName);
+
+        if (config("filesystems.disks.{$diskName}.driver") === 's3') {
+            return $disk->temporaryUrl(
+                $this->photo_path,
+                now()->addMinutes(30)
+            );
+        }
+
+        return $disk->url($this->photo_path);
+    }
 
     /**
      * Operational vulnerability context for assigned responders/admins only.

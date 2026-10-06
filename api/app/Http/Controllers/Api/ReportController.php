@@ -10,14 +10,34 @@ use App\Services\NotificationService;
 use App\Support\ReportBridge;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
     public function index(): JsonResponse
     {
-        $reports = Report::with('user')
+        $reports = Report::with([
+            'user',
+            'user.profile:id,user_id,contact_number',
+        ])
             ->latest()
             ->get();
+
+        $reports->each(function (Report $report): void {
+            $diskName = $report->photo_disk
+                ?: config('filesystems.report_evidence_disk', 'public');
+            $disk = Storage::disk($diskName);
+            $driver = config("filesystems.disks.{$diskName}.driver");
+
+            $report->setAttribute(
+                'photo_url',
+                $report->photo_path
+                    ? ($driver === 's3'
+                        ? $disk->temporaryUrl($report->photo_path, now()->addMinutes(30))
+                        : $disk->url($report->photo_path))
+                    : null
+            );
+        });
 
         return response()->json([
             'success' => true,

@@ -185,9 +185,20 @@ function App() {
      NAVIGATION
   ========================= */
 
-  const handleNavigate = (pageId) => {
+  const handleNavigate = (pageId, payload) => {
     if (pageId !== "all-reports") {
       setSelectedResident(null);
+    }
+
+    // Keep report details navigation compatible with callers that pass a
+    // selected report as the second argument.
+    if (pageId === "report-details" && payload) {
+      const latestReport = {
+        ...payload,
+        ...(payload.id ? reportUpdates[payload.id] || {} : {}),
+      };
+
+      setSelectedReport(latestReport);
     }
 
     setActivePage(pageId);

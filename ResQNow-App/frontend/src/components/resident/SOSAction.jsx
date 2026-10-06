@@ -99,6 +99,8 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
       });
 
       clearPendingSosKey();
+      setLastKey(null);
+      setLastLocation(null);
       setPhase('success');
       triggerHaptic([100, 50, 150, 50, 200]);
       onCreated?.(result.report);

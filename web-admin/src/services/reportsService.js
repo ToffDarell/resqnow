@@ -16,6 +16,10 @@ export const REPORT_CATEGORIES = [
 
 /**
  * Convert backend report data into frontend-friendly format.
+ *
+ * NOTE: several consumers (AllReports incident matching, ReportDetails
+ * navigation) still read the raw snake_case fields, so keep BOTH the
+ * formatted fields and the raw passthrough below.
  */
 function formatReport(report) {
   return {
@@ -33,6 +37,16 @@ function formatReport(report) {
       : "Unknown",
 
     reporter: report.user?.name || "Unknown Resident",
+
+    contact:
+      report.user?.profile?.contact_number ||
+      report.user?.contact_number ||
+      report.subject_contact ||
+      report.reporter_contact ||
+      report.contact_number ||
+      "Not provided",
+
+    reportCode: report.report_code || null,
 
     priority: report.priority || "Not Prioritized",
     currentPriority: report.priority || null,
@@ -55,7 +69,18 @@ function formatReport(report) {
     verificationRemarks: report.verification_remarks || null,
     returnedAt: report.returned_at || null,
 
-    evidence: "No evidence information",
+    evidence: report.photo_url
+      ? [
+          {
+            id: `photo-${report.id}`,
+            label: "Resident photo evidence",
+            url: report.photo_url,
+          },
+        ]
+      : [],
+    affectedIndividuals: Array.isArray(report.affected_individuals)
+      ? report.affected_individuals
+      : [],
     affectedResidents: report.affected_residents ?? null,
     locationRisk: report.location_risk || null,
     assistanceEvacuationNeed: report.assistance_evacuation_need || null,
@@ -65,6 +90,18 @@ function formatReport(report) {
     triageRecommendation: report.triage_recommendation || null,
     triageAssessedAt: report.triage_assessed_at || null,
     triageAssessedBy: report.triage_assessed_by || null,
+
+    // Raw API passthrough: ReportDetails + AllReports incident matching
+    // read these snake_case fields directly.
+    report_type: report.report_type,
+    created_at: report.created_at,
+    verification_status: report.verification_status,
+    user: report.user,
+    user_id: report.user_id,
+    report_code: report.report_code,
+    affected_individuals: report.affected_individuals,
+    photo_path: report.photo_path,
+    photo_url: report.photo_url,
   };
 }
 
@@ -299,13 +336,15 @@ export async function createIncidentFromReport(reportId) {
     method: "POST",
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => null);
+  const result = await response.json().catch(() => null);
 
-    throw new Error(errorData?.message || "Failed to create incident.");
+  // A create request may be retried after a lost response. The API returns
+  // the already-created incident with 409, which is still usable for assignment.
+  if (!response.ok && !(response.status === 409 && result?.data?.id)) {
+    throw new Error(result?.message || "Failed to create incident.");
   }
 
-  return response.json();
+  return result?.data || null;
 }
 
 /**

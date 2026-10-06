@@ -48,7 +48,7 @@ class IncidentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'An incident already exists for this report.',
-                'data' => $existingIncident,
+                'data' => $existingIncident->load(['report', 'personnel']),
             ], 409);
         }
 

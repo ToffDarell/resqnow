@@ -1,6 +1,6 @@
 // src/components/resident/EmergencyReport.jsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   HeartPulse,
@@ -14,24 +14,27 @@ import {
   Phone,
   ChevronDown,
   AlertTriangle,
+  Camera,
   CheckCircle2,
   Loader2,
   LocateFixed,
   ShieldCheck,
   Pencil,
   Users,
+  X,
 } from 'lucide-react';
 
 import { useAuth } from '../../context/AuthContext';
 import useOnlineStatus from '../../hooks/useOnlineStatus';
 import { emergencyTypes } from '../../data/mockData';
-import { createEmergencyReport } from '../../services/reportService';
+import { createEmergencyReport, uploadReportEvidence } from '../../services/reportService';
 import { getBarangayHotline } from '../../utils/contactUtils';
 import { buildEmergencySmsMessage, openSmsComposer } from '../../utils/smsFallback';
 
 // ============ ICONS ============
 const HOTLINE = getBarangayHotline();
 const EMERGENCY_DRAFT_KEY = 'resqnow_emergency_draft_v1';
+const MAX_EVIDENCE_SIZE = 5 * 1024 * 1024;
 
 const iconMap = {
   HeartPulse,
@@ -157,6 +160,13 @@ export default function EmergencyReport() {
   const [description, setDescription] =
     useState('');
 
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState('');
+  const [photoError, setPhotoError] = useState('');
+  const [photoUploadStatus, setPhotoUploadStatus] = useState('idle');
+  const [photoUploadError, setPhotoUploadError] = useState('');
+  const evidenceUploadReportRef = useRef(null);
+
   // Form and submission state
   const [error, setError] =
     useState('');
@@ -180,6 +190,62 @@ export default function EmergencyReport() {
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [forceSmsFallback, setForceSmsFallback] = useState(false);
   const useSmsFallback = !isOnline || forceSmsFallback;
+
+  useEffect(() => {
+    return () => {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+    };
+  }, [photoPreview]);
+
+  const handlePhotoChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      setPhotoError('Choose a JPG or PNG photo.');
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > MAX_EVIDENCE_SIZE) {
+      setPhotoError('The photo must be 5 MB or smaller.');
+      event.target.value = '';
+      return;
+    }
+
+    setPhoto(file);
+    setPhotoPreview(URL.createObjectURL(file));
+    setPhotoError('');
+    setError('');
+  };
+
+  const removePhoto = () => {
+    setPhoto(null);
+    setPhotoPreview('');
+    setPhotoError('');
+    setPhotoUploadStatus('idle');
+    setPhotoUploadError('');
+  };
+
+  const startPhotoUpload = async (reportCode, evidencePhoto) => {
+    evidenceUploadReportRef.current = reportCode;
+    setPhotoUploadStatus('uploading');
+    setPhotoUploadError('');
+
+    try {
+      await uploadReportEvidence(reportCode, evidencePhoto);
+      if (evidenceUploadReportRef.current === reportCode) {
+        setPhotoUploadStatus('uploaded');
+      }
+    } catch (uploadError) {
+      if (evidenceUploadReportRef.current === reportCode) {
+        setPhotoUploadStatus('failed');
+        setPhotoUploadError(
+          uploadError.message || 'The report was sent, but the photo could not be uploaded.'
+        );
+      }
+    }
+  };
 
   // Restore the resident's unfinished emergency draft.
   useEffect(() => {
@@ -519,6 +585,11 @@ export default function EmergencyReport() {
       setSubmittedReport(report);
       setForceSmsFallback(false);
 
+      // The emergency is already recorded before optional evidence uploads.
+      if (photo) {
+        void startPhotoUpload(report.id, photo);
+      }
+
       try {
         localStorage.removeItem(EMERGENCY_DRAFT_KEY);
       } catch {
@@ -566,6 +637,7 @@ export default function EmergencyReport() {
 
   // ============ RESET FORM ============
   const resetForm = () => {
+    evidenceUploadReportRef.current = null;
     setSubmittedReport(null);
 
     setSelectedType(null);
@@ -579,6 +651,11 @@ export default function EmergencyReport() {
 
     setLandmark('');
     setDescription('');
+    setPhoto(null);
+    setPhotoPreview('');
+    setPhotoError('');
+    setPhotoUploadStatus('idle');
+    setPhotoUploadError('');
 
     setVictimName('');
     setVictimContact('');
@@ -685,6 +762,38 @@ export default function EmergencyReport() {
                 </span>
               </div>
             </div>
+
+            {photo && (
+              <div className="mt-3 rounded-xl bg-resqnow-canvas px-3.5 py-3 text-left">
+                <div className="flex items-center gap-2">
+                  {photoUploadStatus === 'uploading' ? (
+                    <Loader2 className="w-4 h-4 text-resqnow-violet animate-spin shrink-0" />
+                  ) : (
+                    <Camera className="w-4 h-4 text-resqnow-violet shrink-0" />
+                  )}
+                  <p className="text-[11px] font-semibold text-resqnow-primary">
+                    {photoUploadStatus === 'uploaded' && 'Photo evidence attached'}
+                    {photoUploadStatus === 'uploading' && 'Uploading photo evidence'}
+                    {photoUploadStatus === 'failed' && 'Report sent; photo upload failed'}
+                    {photoUploadStatus === 'idle' && 'Photo evidence is optional'}
+                  </p>
+                </div>
+                {photoUploadStatus === 'failed' && (
+                  <div className="mt-2">
+                    <p role="alert" className="text-[10px] text-resqnow-critical">
+                      {photoUploadError}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => void startPhotoUpload(submittedReport.id, photo)}
+                      className="mt-2 min-h-10 rounded-lg border border-resqnow-border-soft bg-white px-3 text-[11px] font-semibold text-resqnow-primary"
+                    >
+                      Retry photo upload
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* View this report */}
             <button
@@ -1246,6 +1355,62 @@ export default function EmergencyReport() {
         )}
       </section>
 
+      {/* ============ OPTIONAL PHOTO EVIDENCE ============ */}
+      <section className="bg-white border border-resqnow-border-soft rounded-2xl p-3 mb-3">
+        <div className="flex items-center gap-2 px-1 mb-2">
+          <Camera className="w-4 h-4 text-resqnow-violet" />
+          <div>
+            <h2 className="text-[13px] font-bold text-resqnow-primary">
+              Photo Evidence <span className="font-medium text-resqnow-muted">(Optional)</span>
+            </h2>
+            <p className="text-[10px] text-resqnow-muted mt-0.5">
+              JPG or PNG up to 5 MB. Attach only if it is safe; never delay reporting.
+            </p>
+          </div>
+        </div>
+
+        {useSmsFallback ? (
+          <p className="rounded-xl bg-resqnow-caution/10 px-3 py-2.5 text-[11px] text-resqnow-secondary">
+            Photo upload is unavailable in SMS fallback. Send the SMS now and contact the barangay with evidence when safe.
+          </p>
+        ) : photoPreview ? (
+          <div className="relative">
+            <img
+              src={photoPreview}
+              alt="Emergency evidence preview"
+              className="w-full h-40 object-cover rounded-xl"
+            />
+            <button
+              type="button"
+              onClick={removePhoto}
+              aria-label="Remove emergency evidence photo"
+              className="absolute top-2 right-2 w-11 h-11 bg-resqnow-primary/85 text-white rounded-full flex items-center justify-center"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <label className="block min-h-12 border-2 border-dashed border-resqnow-border-soft rounded-xl p-4 text-center cursor-pointer hover:bg-resqnow-violet/5 hover:border-resqnow-violet/20 focus-within:ring-2 focus-within:ring-resqnow-violet/30 transition-colors">
+            <span className="text-[12px] font-semibold text-resqnow-secondary">
+              Add Photo
+            </span>
+            <input
+              type="file"
+              accept="image/jpeg,image/png"
+              onChange={handlePhotoChange}
+              className="sr-only"
+              aria-label="Add optional emergency photo evidence"
+            />
+          </label>
+        )}
+
+        {photoError && (
+          <p role="alert" className="mt-2 text-[11px] font-semibold text-resqnow-critical">
+            {photoError}
+          </p>
+        )}
+      </section>
+
       {/* ============ SIGNAL WARNING ============ */}
       <div className="flex items-start gap-2 bg-resqnow-caution/10 border border-resqnow-caution/20 rounded-xl px-3 py-2.5 mb-3">
 
@@ -1355,7 +1520,14 @@ export default function EmergencyReport() {
                       victimName
                     }
                   />
-                )}
+                  )}
+
+              {photo && (
+                <InfoRow
+                  label="Photo evidence"
+                  value={useSmsFallback ? 'Not included in SMS' : 'Uploads after the report is sent'}
+                />
+              )}
             </div>
 
             {/* REAL API SUBMIT */}

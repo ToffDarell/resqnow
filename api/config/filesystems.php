@@ -15,6 +15,9 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    // Use "s3" in production when durable object storage is configured.
+    'report_evidence_disk' => env('REPORT_EVIDENCE_DISK', 'public'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

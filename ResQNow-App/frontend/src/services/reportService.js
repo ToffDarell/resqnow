@@ -50,7 +50,6 @@ export async function getReport(
 }
 
 // ============ CREATE EMERGENCY REPORT ============
-// Emergency reports are submitted as JSON.
 export async function createEmergencyReport(
   reportData
 ) {
@@ -62,14 +61,28 @@ export async function createEmergencyReport(
     '/api/reports/emergency',
     {
       method: 'POST',
-
-      body: JSON.stringify(
-        reportData
-      ),
+      body: JSON.stringify(reportData),
     }
   );
 
   return extractReport(data);
+}
+
+// Emergency evidence uploads after the report is created, so a slow upload
+// cannot delay an urgent report from reaching the response queue.
+export async function uploadReportEvidence(reportCode, photo) {
+  const formData = new FormData();
+  formData.append('photo', photo);
+
+  const data = await apiRequest(
+    `/api/reports/${encodeURIComponent(reportCode)}/evidence`,
+    {
+      method: 'POST',
+      body: formData,
+    }
+  );
+
+  return data;
 }
 
 // ============ CREATE NON-EMERGENCY REPORT ============

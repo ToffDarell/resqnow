@@ -129,40 +129,55 @@ export default function CancelReportModal({
 
   return (
     <div
-      className="fixed inset-0 z-[120] bg-slate-950/55 px-3 pt-6 flex items-end sm:items-center justify-center"
+      className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center"
       role="dialog"
       aria-modal="true"
       aria-labelledby="cancel-report-title"
     >
-      <div className="w-full max-w-md max-h-[calc(100dvh-24px)] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-        <div className="px-4 py-4 border-b border-resqnow-border-soft flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-resqnow-critical/10 text-resqnow-critical flex items-center justify-center shrink-0">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px]"
+        onClick={!submitting ? onClose : undefined}
+      />
+
+      {/* Sheet */}
+      <div className="relative w-full max-w-md max-h-[90dvh] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+
+        {/* Accent strip */}
+        <div className="h-1 w-full bg-gradient-to-r from-[#D92D20] to-[#F97316] shrink-0" />
+
+        {/* ── HEADER ─────────────────────────────────────── */}
+        <div className="px-5 py-4 border-b border-[#E5E7EB] flex items-start gap-3 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D92D20] flex items-center justify-center shrink-0 ring-1 ring-red-100">
             <AlertTriangle className="w-5 h-5" />
           </div>
+
           <div className="min-w-0 flex-1">
-            <p id="cancel-report-title" className="text-[15px] font-extrabold text-resqnow-primary">
+            <p id="cancel-report-title" className="text-[15px] font-extrabold text-[#1F2937] leading-snug">
               {heading}
             </p>
-            <p className="text-[10px] text-resqnow-muted mt-1 leading-relaxed">
+            <p className="text-[11px] text-[#6B7280] mt-0.5 leading-relaxed">
               {intro}
             </p>
-            <p className="text-[10px] font-bold text-resqnow-secondary mt-1.5">
+            <p className="text-[11px] font-bold text-[#374151] mt-1.5 font-mono tracking-tight">
               {report.id} · {report.concernType}
             </p>
           </div>
+
           <button
             type="button"
             onClick={onClose}
             disabled={submitting}
             aria-label="Close cancellation dialog"
-            className="w-9 h-9 rounded-xl border border-resqnow-border-soft text-resqnow-muted flex items-center justify-center disabled:opacity-50"
+            className="w-8 h-8 rounded-lg border border-[#E5E7EB] text-[#9CA3AF] flex items-center justify-center hover:bg-slate-50 hover:text-[#374151] transition disabled:opacity-40 shrink-0"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 pb-[calc(104px+env(safe-area-inset-bottom))] sm:pb-4">
-          <p className="text-[11px] font-extrabold text-resqnow-primary mb-2.5">
+        {/* ── SCROLLABLE BODY ────────────────────────────── */}
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 py-4">
+          <p className="text-[11px] font-extrabold text-[#1F2937] uppercase tracking-wide mb-3">
             Why are you cancelling?
           </p>
 
@@ -170,10 +185,10 @@ export default function CancelReportModal({
             {options.map(([value, label]) => (
               <label
                 key={value}
-                className={`min-h-[44px] rounded-xl border px-3 py-2.5 flex items-center gap-3 cursor-pointer ${
+                className={`min-h-[46px] rounded-xl border px-3.5 py-3 flex items-center gap-3 cursor-pointer transition-colors ${
                   reason === value
-                    ? 'border-resqnow-violet bg-resqnow-violet/5'
-                    : 'border-resqnow-border-soft bg-white'
+                    ? 'border-[#0B4F9C] bg-[#EEF4FA] ring-1 ring-[#0B4F9C]/20'
+                    : 'border-[#E5E7EB] bg-white hover:border-[#D1D5DB] hover:bg-slate-50'
                 }`}
               >
                 <input
@@ -182,9 +197,9 @@ export default function CancelReportModal({
                   value={value}
                   checked={reason === value}
                   onChange={() => setReason(value)}
-                  className="accent-resqnow-violet"
+                  className="accent-[#0B4F9C] w-4 h-4 shrink-0"
                 />
-                <span className="text-[11px] font-semibold text-resqnow-primary">
+                <span className="text-[13px] font-semibold text-[#1F2937]">
                   {label}
                 </span>
               </label>
@@ -192,8 +207,8 @@ export default function CancelReportModal({
           </div>
 
           {reason === 'other' && (
-            <div className="mt-3">
-              <label className="text-[10px] font-bold text-resqnow-muted" htmlFor="cancel-remarks">
+            <div className="mt-4">
+              <label className="text-[11px] font-bold text-[#6B7280] uppercase tracking-wide" htmlFor="cancel-remarks">
                 Brief explanation
               </label>
               <textarea
@@ -202,45 +217,52 @@ export default function CancelReportModal({
                 onChange={(event) => setRemarks(event.target.value.slice(0, 500))}
                 rows={3}
                 placeholder="Tell the barangay why this report is being cancelled."
-                className="mt-1.5 w-full rounded-xl border border-resqnow-border px-3 py-2.5 text-[12px] text-resqnow-primary outline-none focus:border-resqnow-violet/50 focus:ring-2 focus:ring-resqnow-violet/10"
+                className="mt-1.5 w-full rounded-xl border border-[#D1D5DB] px-3.5 py-2.5 text-[13px] text-[#1F2937] outline-none focus:border-[#0B4F9C] focus:ring-2 focus:ring-[#0B4F9C]/10 resize-none transition"
               />
-              <p className="text-[9px] text-resqnow-muted text-right mt-1">
+              <p className="text-[10px] text-[#9CA3AF] text-right mt-0.5">
                 {remarks.length}/500
               </p>
             </div>
           )}
 
           {error && (
-            <div role="alert" className="mt-3 rounded-xl border border-resqnow-critical/20 bg-resqnow-critical/10 px-3 py-2.5">
-              <p className="text-[10px] font-semibold text-resqnow-crimson leading-relaxed">
+            <div role="alert" className="mt-3 rounded-xl border border-[#D92D20]/20 bg-[#FFF0F3] px-3.5 py-3 flex gap-2">
+              <AlertTriangle className="w-4 h-4 text-[#D92D20] shrink-0 mt-0.5" />
+              <p className="text-[12px] font-semibold text-[#B42318] leading-relaxed">
                 {error}
               </p>
             </div>
           )}
+        </div>
 
-          <div className="sticky bottom-0 -mx-4 mt-4 grid grid-cols-2 gap-2.5 border-t border-resqnow-border-soft bg-white/95 px-4 pt-3 pb-2 backdrop-blur">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={submitting}
-              className="min-h-[46px] rounded-xl border border-resqnow-border bg-white text-[11px] font-extrabold text-resqnow-primary disabled:opacity-50"
-            >
-              Keep Report Active
-            </button>
-            <button
-              type="button"
-              onClick={submit}
-              disabled={!reason || submitting}
-              className="min-h-[46px] rounded-xl bg-resqnow-critical text-white text-[11px] font-extrabold flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {submitting ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <CheckCircle2 className="w-4 h-4" />
-              )}
-              Confirm Cancellation
-            </button>
-          </div>
+        {/* ── ACTION FOOTER (outside scroll) ────────────── */}
+        <div
+          className="shrink-0 px-5 pt-3 pb-[max(16px,env(safe-area-inset-bottom))] border-t border-[#E5E7EB] bg-white flex gap-3"
+        >
+          {/* Keep Active */}
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={submitting}
+            className="flex-1 h-12 rounded-xl border border-[#D1D5DB] bg-white text-[13px] font-bold text-[#374151] hover:bg-slate-50 transition active:scale-[0.98] disabled:opacity-40"
+          >
+            Keep Active
+          </button>
+
+          {/* Confirm Cancel */}
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!reason || submitting}
+            className="flex-1 h-12 rounded-xl bg-[#D92D20] text-white text-[13px] font-bold flex items-center justify-center gap-2 hover:bg-[#B42318] transition active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-red-900/20"
+          >
+            {submitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <CheckCircle2 className="w-4 h-4" />
+            )}
+            Confirm Cancel
+          </button>
         </div>
       </div>
     </div>

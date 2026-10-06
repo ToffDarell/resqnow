@@ -305,12 +305,8 @@ class ReportController extends Controller
         StoreEmergencyReportRequest $request
     ): JsonResponse {
         $data = $request->validated();
-
         $report = DB::transaction(
-            function () use (
-                $request,
-                $data
-            ) {
+            function () use ($request, $data) {
                 /**
                  * Create the database record first.
                  *
@@ -431,8 +427,11 @@ class ReportController extends Controller
                     'affected_individuals' =>
                         null,
 
-                    'photo_path' =>
-                        null,
+                    // TiDB requires a non-null disk name even when no photo
+                    // has been uploaded yet. The path remains nullable.
+                    'photo_disk' => config('filesystems.report_evidence_disk', 'public'),
+
+                    'photo_path' => null,
 
                     'barangay_remarks' =>
                         null,
@@ -500,6 +499,62 @@ class ReportController extends Controller
     }
 
     /**
+     * Attach optional evidence to a report owned by the authenticated resident.
+     * Called after an emergency report has already been submitted.
+     */
+    public function uploadEvidence(Request $request, string $reportCode): JsonResponse
+    {
+        $validated = $request->validate([
+            'photo' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
+        ], [
+            'photo.required' => 'Choose a photo to upload.',
+            'photo.image' => 'The evidence must be an image.',
+            'photo.mimes' => 'Choose a JPG or PNG photo.',
+            'photo.max' => 'The photo must be 5 MB or smaller.',
+        ]);
+
+        $report = Report::query()
+            ->where('report_code', $reportCode)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+
+        $diskName = config('filesystems.report_evidence_disk', 'public');
+        $oldDiskName = $report->photo_disk ?: $diskName;
+        $oldPath = $report->photo_path;
+        $photoPath = $validated['photo']->store('reports', $diskName);
+
+        if (!$photoPath) {
+            return response()->json([
+                'message' => 'The evidence photo could not be saved. You can retry the upload.',
+            ], 500);
+        }
+
+        try {
+            $report->update([
+                'photo_disk' => $diskName,
+                'photo_path' => $photoPath,
+            ]);
+        } catch (Throwable $exception) {
+            Storage::disk($diskName)->delete($photoPath);
+            throw $exception;
+        }
+
+        if ($oldPath && ($oldDiskName !== $diskName || $oldPath !== $photoPath)) {
+            Storage::disk($oldDiskName)->delete($oldPath);
+        }
+
+        $disk = Storage::disk($diskName);
+        $photoUrl = config("filesystems.disks.{$diskName}.driver") === 's3'
+            ? $disk->temporaryUrl($photoPath, now()->addMinutes(30))
+            : $disk->url($photoPath);
+
+        return response()->json([
+            'success' => true,
+            'photoUrl' => $photoUrl,
+        ]);
+    }
+
+    /**
      * Submit a Non-Emergency report.
      */
     public function storeNonEmergency(
@@ -509,6 +564,7 @@ class ReportController extends Controller
             $request->validated();
 
         $photoPath = null;
+        $photoDisk = config('filesystems.report_evidence_disk', 'public');
 
         try {
             /**
@@ -523,17 +579,19 @@ class ReportController extends Controller
                 $photoPath =
                     $request
                         ->file('photo')
-                        ->store(
-                            'reports',
-                            'public'
-                        );
+                        ->store('reports', $photoDisk);
+
+                if (!$photoPath) {
+                    throw new \RuntimeException('Evidence photo could not be saved.');
+                }
             }
 
             $report = DB::transaction(
                 function () use (
                     $request,
                     $data,
-                    $photoPath
+                    $photoPath,
+                    $photoDisk
                 ) {
                     /**
                      * Priority is calculated by Laravel,
@@ -661,6 +719,9 @@ class ReportController extends Controller
                                     'affectedIndividuals'
                                 ] ?? [],
 
+                            'photo_disk' =>
+                                $photoDisk,
+
                             'photo_path' =>
                                 $photoPath,
 
@@ -734,11 +795,7 @@ class ReportController extends Controller
              * remove the abandoned file.
              */
             if ($photoPath) {
-                Storage::disk(
-                    'public'
-                )->delete(
-                    $photoPath
-                );
+                Storage::disk($photoDisk)->delete($photoPath);
             }
 
             throw $exception;

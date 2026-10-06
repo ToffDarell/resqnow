@@ -144,6 +144,11 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
   const report = {
     ...(selectedReport || {}),
     id: selectedReport?.id || "Not available",
+    displayId:
+      selectedReport?.reportCode ||
+      selectedReport?.report_code ||
+      selectedReport?.id ||
+      "Not available",
     type:
       selectedReport?.type || selectedReport?.report_type || "Not available",
     category: selectedReport?.category || "Not available",
@@ -251,6 +256,11 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
     evidence: Array.isArray(selectedReport?.evidence)
       ? selectedReport.evidence
       : [],
+    affectedIndividuals: Array.isArray(selectedReport?.affectedIndividuals)
+      ? selectedReport.affectedIndividuals
+      : Array.isArray(selectedReport?.affected_individuals)
+        ? selectedReport.affected_individuals
+        : [],
     history: Array.isArray(selectedReport?.history)
       ? selectedReport.history
       : [],
@@ -482,6 +492,10 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
 
       const createdIncident = await createIncidentFromReport(reportDatabaseId);
 
+      if (!createdIncident?.id) {
+        throw new Error("The server did not return an incident ID. Refresh the report and try again.");
+      }
+
       setIncident(createdIncident);
       setStatus(createdIncident.status);
 
@@ -505,7 +519,7 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
     }
   };
   const handleSaveAssignment = async () => {
-    if (!incident) {
+    if (!incident?.id) {
       setAssignmentError("This report does not have an incident record yet.");
       return;
     }
@@ -517,8 +531,7 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
 
     const selectedPerson = personnelList.find(
       (person) =>
-        person.id === Number(selectedPersonnel) ||
-        person.databaseId === Number(selectedPersonnel),
+        String(person.id ?? person.databaseId) === selectedPersonnel,
     );
 
     if (!selectedPerson) {
@@ -532,8 +545,12 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
 
       const updatedIncident = await assignIncidentPersonnel(
         incident.id,
-        selectedPerson.id || selectedPerson.databaseId,
+        selectedPerson.databaseId ?? selectedPerson.id,
       );
+
+      if (!updatedIncident?.id) {
+        throw new Error("The server did not return the updated incident. Refresh the report and try again.");
+      }
 
       setIncident(updatedIncident);
 
@@ -541,6 +558,10 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
         updatedIncident?.personnel?.name ||
         selectedPerson.name ||
         "Assigned Personnel";
+      const personnelTeam =
+        updatedIncident?.personnel?.team ||
+        selectedPerson.team ||
+        "No team";
 
       const assignedAt = new Date().toLocaleString([], {
         month: "short",
@@ -551,7 +572,7 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
       });
 
       const newAssignment = {
-        team: selectedTeam,
+        team: personnelTeam,
         personnel: personnelName,
         assignedAt,
       };
@@ -661,16 +682,20 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
     doc.setFontSize(11);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(102, 112, 133);
-    doc.text(`Report ID: ${report.id}`, 14, 50);
+    doc.text(`Report ID: ${report.displayId}`, 14, 50);
 
     // REPORT INFORMATION
     autoTable(doc, {
       startY: 58,
       head: [["Report Information", "Details"]],
       body: [
-        ["Report ID", report.id],
+        ["Report ID", report.displayId],
         ["Report Type", report.type],
         ["Category", report.category],
+        [
+          "Affected Individuals",
+          report.affectedIndividuals.join(", ") || "None reported",
+        ],
         ["Priority", report.priority],
         ["Current Status", status],
         ["Verification", report.verification],
@@ -826,7 +851,7 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
     }
 
     // DOWNLOAD PDF
-    doc.save(`${report.id}-Report-Details.pdf`);
+    doc.save(`${report.displayId}-Report-Details.pdf`);
   };
 
   const visibleHistory = showMoreHistory ? history : history.slice(-4);
@@ -872,7 +897,7 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
             <span className="text-xs text-[#98A2B3]">/</span>
 
             <span className="text-xs font-bold text-[#667085]">
-              {report.id}
+              {report.displayId}
             </span>
           </div>
 
@@ -930,12 +955,16 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
               </div>
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-5 p-5 lg:grid-cols-3">
-                <InfoItem label="Report ID" value={report.id} />
+                <InfoItem label="Report ID" value={report.displayId} />
                 <InfoItem label="Reporter" value={report.reporter} />
                 <InfoItem label="Contact Number" value={report.contact} />
                 <InfoItem label="Category" value={report.category} />
                 <InfoItem label="Location" value={report.location} />
                 <InfoItem label="Submitted" value={report.submitted} />
+                <InfoItem
+                  label="Affected Individuals"
+                  value={report.affectedIndividuals.join(", ") || "None reported"}
+                />
               </div>
             </section>
 
@@ -1130,28 +1159,28 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
                 </h2>
 
                 <p className="mt-0.5 text-xs text-[#667085]">
-                  {(report.evidence || []).length} attachments submitted report.
+                  {report.evidence.length} {report.evidence.length === 1 ? "photo" : "photos"} submitted with report.
                 </p>
               </div>
 
               {(report.evidence || []).length > 0 ? (
                 <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 lg:grid-cols-3">
                   {(report.evidence || []).map((item) => (
-                    <button
+                    <a
                       key={item.id}
-                      type="button"
-                      className="overflow-hidden rounded-lg border border-[#E4E7EC] bg-[#F8FAFC] text-left transition hover:border-[#1F5FA6]"
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block overflow-hidden rounded-lg border border-[#E4E7EC] bg-[#F8FAFC] text-left transition hover:border-[#1F5FA6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1F5FA6]"
                     >
-                      <div className="flex h-28 items-center justify-center bg-[#EAF1FA] text-2xl text-[#1F5FA6]">
-                        ▧
-                      </div>
+                      <img src={item.url} alt={item.label} loading="lazy" className="h-40 w-full object-cover" />
 
                       <div className="px-3 py-2.5">
                         <p className="truncate text-xs font-semibold text-[#344054]">
                           {item.label}
                         </p>
                       </div>
-                    </button>
+                    </a>
                   ))}
                 </div>
               ) : (
@@ -1530,7 +1559,8 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
                   className="mt-2 h-11 w-full rounded-lg border border-[#E4E7EC] bg-[#F8FAFC] px-3 text-sm text-[#475467] outline-none disabled:cursor-not-allowed"
                 >
                   <option value={selectedTeam}>
-                    {selectedTeam || "Select personnel first"}
+                    {selectedTeam ||
+                      (selectedPersonnel ? "No team assigned" : "Select personnel first")}
                   </option>
                 </select>
                 <p className="mt-1 text-[11px] text-[#98A2B3]">
@@ -1550,7 +1580,8 @@ function ReportDetails({ report: selectedReport, onBack, onReportUpdate }) {
                     setSelectedPersonnel(personnelId);
 
                     const person = personnelList.find(
-                      (item) => String(item.id) === personnelId,
+                      (item) =>
+                        String(item.id ?? item.databaseId) === personnelId,
                     );
 
                     setSelectedTeam(person?.team || "");
