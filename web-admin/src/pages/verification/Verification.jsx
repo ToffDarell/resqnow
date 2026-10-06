@@ -4,7 +4,9 @@ import {
   getReportsForVerification,
   verifyReport,
   returnReportForReview,
+  REPORT_CATEGORIES,
 } from "../../services/reportsService";
+import { Search, CheckCircle2, AlertCircle, ShieldCheck } from "lucide-react";
 
 import { useLanguage } from "../../hooks/useLanguage";
 
@@ -45,6 +47,7 @@ function Verification({ onVerificationUpdate }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [actionMessage, setActionMessage] = useState("");
+  const [actionStatus, setActionStatus] = useState("success");
 
   // Return for review modal state
 
@@ -90,6 +93,15 @@ function Verification({ onVerificationUpdate }) {
     load();
   }, []);
 
+  const availableCategories = useMemo(() => {
+    const cats = new Set(REPORT_CATEGORIES || []);
+    reports.forEach((r) => {
+      if (r.category && r.category !== "Uncategorized") cats.add(r.category);
+      if (r.type && r.type !== "Unknown Report") cats.add(r.type);
+    });
+    return ["All", ...Array.from(cats)];
+  }, [reports]);
+
   const pendingReports = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
@@ -102,7 +114,9 @@ function Verification({ onVerificationUpdate }) {
         report.reporter.toLowerCase().includes(normalizedSearch);
 
       const matchesCategory =
-        categoryFilter === "All" || report.category === categoryFilter;
+        categoryFilter === "All" ||
+        report.category === categoryFilter ||
+        report.type === categoryFilter;
 
       return matchesSearch && matchesCategory;
     });
@@ -130,6 +144,7 @@ function Verification({ onVerificationUpdate }) {
         status: "For Prioritization",
       });
 
+      setActionStatus("success");
       setActionMessage(
         t("reportVerifiedForwarded").replace("{id}", selectedReport.id),
       );
@@ -138,6 +153,7 @@ function Verification({ onVerificationUpdate }) {
     } catch (error) {
       console.error("Failed to verify report:", error);
 
+      setActionStatus("error");
       setActionMessage(t("verificationFailed"));
     }
   };
@@ -170,6 +186,7 @@ function Verification({ onVerificationUpdate }) {
         verification: "Returned",
       });
 
+      setActionStatus("success");
       setActionMessage(
         t("reportReturnedForReview").replace("{id}", selectedReport.id),
       );
@@ -180,6 +197,7 @@ function Verification({ onVerificationUpdate }) {
     } catch (error) {
       console.error("Failed to return report for review:", error);
 
+      setActionStatus("error");
       setReturnError(error.message || t("verificationFailed"));
     } finally {
       setIsReturning(false);
@@ -188,28 +206,30 @@ function Verification({ onVerificationUpdate }) {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
+      {/* Page header with pending badge */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-[#101C2E]">
+            {t("verificationCenter")}
+          </h1>
 
-      <div>
-        <h1 className="text-2xl font-bold text-[#101C2E]">
-          {t("verificationCenter")}
-        </h1>
-
-        <p className="mt-1 text-sm text-[#667085]">
-          {t("verificationCenterDescription")}
-        </p>
-      </div>
-      {/* Report verification */}
-
-      <div className="flex">
-        <div className="w-full max-w-xs rounded-xl border border-[#E4E7EC] bg-white p-5 shadow-sm">
-          <p className="text-sm font-semibold text-[#667085]">
-            {t("pendingReports")}
+          <p className="mt-1 text-sm text-[#667085]">
+            {t("verificationCenterDescription")}
           </p>
+        </div>
 
-          <p className="mt-3 text-3xl font-bold text-[#101C2E]">
-            {pendingCount}
-          </p>
+        <div className="flex items-center gap-3 rounded-xl border border-[#E4E7EC] bg-white px-5 py-3 shadow-sm">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#EAF1FA] text-[#1F5FA6]">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#667085]">
+              {t("pendingReports")}
+            </p>
+            <p className="text-2xl font-bold text-[#101C2E]">
+              {pendingCount}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -228,26 +248,30 @@ function Verification({ onVerificationUpdate }) {
           </div>
 
           <div className="space-y-3">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder={t("searchReports")}
-              className="w-full rounded-lg border border-[#D0D5DD] px-4 py-3 text-sm outline-none focus:border-[#1F5FA6]"
-            />
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder={t("searchReports")}
+                className="w-full rounded-lg border border-[#D0D5DD] pl-9 pr-4 py-2.5 text-sm outline-none focus:border-[#1F5FA6]"
+              />
+            </div>
 
             <select
               value={categoryFilter}
               onChange={(event) => setCategoryFilter(event.target.value)}
-              className="w-full rounded-lg border border-[#D0D5DD] px-4 py-3 text-sm outline-none focus:border-[#1F5FA6]"
+              className="w-full rounded-lg border border-[#D0D5DD] px-3.5 py-2.5 text-sm outline-none focus:border-[#1F5FA6]"
             >
               <option value="All">{t("allCategories")}</option>
-
-              <option value="Flooding">Flooding</option>
-
-              <option value="Fire">Fire</option>
-
-              <option value="Hazard-Related">Hazard-Related</option>
+              {availableCategories
+                .filter((cat) => cat !== "All")
+                .map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -278,7 +302,7 @@ function Verification({ onVerificationUpdate }) {
                 className={`w-full rounded-lg border p-4 text-left transition ${
                   selectedId === report.id
                     ? "border-[#1F5FA6] bg-[#EAF1FA]"
-                    : "border-[#E4E7EC] bg-white hover:border-[#C7B9FF]"
+                    : "border-[#E4E7EC] bg-white hover:border-[#1F5FA6]/50 hover:bg-slate-50/60"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -341,8 +365,19 @@ function Verification({ onVerificationUpdate }) {
               </div>
 
               {actionMessage && (
-                <div className="mt-5 rounded-lg bg-[#EAF1FA] p-4 text-sm font-semibold text-[#174A86]">
-                  {actionMessage}
+                <div
+                  className={`mt-5 flex items-center gap-2.5 rounded-lg p-4 text-sm font-semibold ${
+                    actionStatus === "error"
+                      ? "border border-red-200 bg-red-50 text-[#D92D20]"
+                      : "border border-emerald-200 bg-emerald-50 text-emerald-800"
+                  }`}
+                >
+                  {actionStatus === "error" ? (
+                    <AlertCircle className="h-5 w-5 shrink-0 text-[#D92D20]" />
+                  ) : (
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+                  )}
+                  <span>{actionMessage}</span>
                 </div>
               )}
 

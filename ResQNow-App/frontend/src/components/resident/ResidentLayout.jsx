@@ -22,7 +22,7 @@ import { getNotifications } from '../../services/notificationService';
 // official Barangay blue/yellow identity. Existing routes are unchanged.
 export default function ResidentLayout() {
   const { user } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const isOnline = useOnlineStatus();
@@ -77,6 +77,18 @@ export default function ResidentLayout() {
     .charAt(0)
     .toUpperCase();
 
+  const currentLang = i18n.language?.startsWith('tl')
+    ? 'TL'
+    : i18n.language?.startsWith('ilo')
+    ? 'ILO'
+    : 'EN';
+
+  const toggleLanguage = () => {
+    const next = currentLang === 'EN' ? 'tl' : currentLang === 'TL' ? 'ilo' : 'en';
+    i18n.changeLanguage(next);
+    localStorage.setItem('resqnow_language', next);
+  };
+
   const reportActive = location.pathname.startsWith('/submit');
 
   const getActiveTab = () => {
@@ -93,7 +105,7 @@ export default function ResidentLayout() {
   return (
     <div className="min-h-screen resqnow-page pb-28 overflow-x-hidden">
       {/* ============ ORIGINAL FOLDER HEADER / NEW CIVIC PALETTE ============ */}
-      <header className="relative h-[132px] bg-resqnow-violet overflow-hidden">
+      <header className="relative min-h-[136px] bg-resqnow-violet overflow-hidden pt-[env(safe-area-inset-top,0px)]">
         {/* Keep the original subtle texture, but remove the old gradient. */}
         <div
           className="absolute inset-0 opacity-[0.055]"
@@ -106,7 +118,7 @@ export default function ResidentLayout() {
           }}
         />
 
-        <div className="relative z-20 max-w-lg mx-auto px-4 pt-4 flex items-center justify-between gap-3">
+        <div className="relative z-20 max-w-lg mx-auto px-3.5 pt-3.5 flex items-center justify-between gap-2.5">
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
@@ -132,13 +144,23 @@ export default function ResidentLayout() {
             </div>
           </button>
 
-          {/* Notification stays in the top header, beside the profile. */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Notification & Language stay in the top header, beside the profile. */}
+          <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
-              onClick={() => navigate('/updates')}
-              aria-label={t('nav.updates')}
-              className="relative w-10 h-10 rounded-xl bg-white/12 border border-white/20 flex items-center justify-center text-white backdrop-blur-sm hover:bg-white/20 active:scale-90 transition-all"
+              onClick={toggleLanguage}
+              aria-label="Switch language"
+              className="h-9 px-2 rounded-xl bg-white/12 border border-white/20 flex items-center justify-center text-white font-black text-[11px] tracking-wider backdrop-blur-sm hover:bg-white/20 active:scale-90 transition-all shadow-xs"
+              title="Switch language (EN / TL / ILO)"
+            >
+              {currentLang}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate('/notifications')}
+              aria-label={t('nav.notifications') || t('nav.updates') || 'Notifications'}
+              className="relative w-9 h-9 rounded-xl bg-white/12 border border-white/20 flex items-center justify-center text-white backdrop-blur-sm hover:bg-white/20 active:scale-90 transition-all"
             >
               <Bell className="w-4 h-4" />
 
@@ -156,7 +178,7 @@ export default function ResidentLayout() {
               type="button"
               onClick={() => navigate('/settings')}
               aria-label={t('nav.profileSettings')}
-              className="w-10 h-10 rounded-full bg-bgy-yellow border-2 border-white text-bgy-navy flex items-center justify-center font-extrabold text-[13px] shadow-sm active:scale-95 transition-transform"
+              className="w-9 h-9 rounded-full bg-bgy-yellow border-2 border-white text-bgy-navy flex items-center justify-center font-extrabold text-[12px] shadow-sm active:scale-95 transition-transform"
             >
               {firstLetter}
             </button>
@@ -295,7 +317,7 @@ function NavItem({ to, icon: Icon, label }) {
           />
 
           <span
-            className={`text-[10px] whitespace-nowrap transition-all duration-300 ${
+            className={`text-[11px] leading-tight whitespace-nowrap transition-all duration-300 ${
               isActive ? 'font-bold -translate-y-0.5' : 'font-medium'
             }`}
           >

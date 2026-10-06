@@ -45,17 +45,17 @@ const statusStyles = {
 
 function StatCard({ label, value, detail }) {
   return (
-    <div className="rounded-xl border border-[var(--border-soft)] bg-white px-5 py-4 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wider text-[#98A2B3]">
+    <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-xs transition hover:shadow-sm">
+      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
         {label}
       </p>
 
-      <div className="mt-2 flex items-end justify-between gap-3">
-        <p className="text-2xl font-bold leading-none text-[var(--text-primary)]">
+      <div className="mt-2 flex items-baseline justify-between gap-3">
+        <p className="text-2xl font-extrabold leading-none text-[#101C2E]">
           {value}
         </p>
 
-        <span className="text-xs font-medium text-[var(--text-muted)]">
+        <span className="text-xs font-medium text-slate-500">
           {detail}
         </span>
       </div>
@@ -407,8 +407,8 @@ function AllReports({ onOpenReport, selectedResident, reportUpdates = {} }) {
 
         {/* ================= TABLE ================= */}
 
-        <div className="min-h-0 flex-1 overflow-auto">
-          <table className="w-full min-w-[1220px] border-collapse text-left">
+        <div className="min-h-0 flex-1 overflow-x-auto">
+          <table className="w-full min-w-[960px] border-collapse text-left">
             <thead className="sticky top-0 z-10 bg-[#F8FAFC]">
               <tr className="border-b border-[var(--border-soft)]">
                 <th className="px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
@@ -460,7 +460,7 @@ function AllReports({ onOpenReport, selectedResident, reportUpdates = {} }) {
                 return (
                   <tr
                     key={report.id}
-                    className="group cursor-pointer transition hover:bg-[#FAF9FF]"
+                    className="group cursor-pointer transition hover:bg-slate-50/80"
                     onClick={() => onOpenReport?.(report)}
                   >
                     {/* REPORT */}

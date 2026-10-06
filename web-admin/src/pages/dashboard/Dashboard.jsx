@@ -4,6 +4,7 @@ import {
   CalendarDays,
   Check,
   ClipboardList,
+  FileCheck2,
   FileText,
   MapPin,
   Plus,
@@ -112,7 +113,7 @@ const statConfig = [
 
   {
     titleKey: "nonEmergencyReports",
-    icon: FileText,
+    icon: FileCheck2,
     accent: "#38BDF8",
     iconBg: "bg-[#EEF8FF]",
     iconColor: "text-[#38BDF8]",
@@ -462,14 +463,8 @@ export default function Dashboard({
   ========================================================= */
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto bg-[var(--warm-ivory)]">
-      <div
-        className="
-          mx-auto flex max-w-[1600px] flex-col
-          gap-2.5 px-5 py-4
-          xl:px-7
-        "
-      >
+    <div className="w-full">
+      <div className="mx-auto flex max-w-[1600px] flex-col gap-4">
         {/* =====================================================
            HEADER
         ===================================================== */}
@@ -508,34 +503,38 @@ export default function Dashboard({
            TOP STATISTICS
         ===================================================== */}
 
-        <section className="grid shrink-0 grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-5">
+        <section className="grid shrink-0 grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {dashboardStats.map((stat) => {
             const Icon = stat.icon;
 
             return (
               <div
                 key={stat.titleKey}
-                className="rounded-xl border border-[var(--border-soft)] bg-white px-4 py-3 shadow-sm"
+                className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
-                <div className="flex items-start justify-between">
+                <div
+                  className="absolute left-0 right-0 top-0 h-1 opacity-90"
+                  style={{ backgroundColor: stat.accent }}
+                />
+                <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-[13px] font-semibold leading-5 text-[var(--text-muted)]">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                       {t(stat.titleKey)}
                     </p>
 
-                    <p className="mt-1 text-[26px] font-bold leading-none text-[var(--text-primary)]">
+                    <p className="mt-1.5 text-[28px] font-extrabold leading-none text-[#101C2E]">
                       {stat.value}
                     </p>
                   </div>
 
                   <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${stat.iconBg}`}
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-xs ${stat.iconBg}`}
                   >
                     <Icon size={20} className={stat.iconColor} />
                   </div>
                 </div>
 
-                <p className="mt-2 text-[12px] text-[var(--text-muted)]">
+                <p className="mt-2.5 text-[12px] font-medium text-slate-500">
                   {t(stat.textKey)}
                 </p>
               </div>
@@ -553,7 +552,7 @@ export default function Dashboard({
               <AlertTriangle size={19} className="text-[#D90429]" />
 
               <h2 className="text-[18px] font-bold text-[var(--text-primary)]">
-                Urgent Emergency Reports
+                {t("urgentEmergencyReports")}
               </h2>
             </div>
 
@@ -566,42 +565,43 @@ export default function Dashboard({
             {urgentReports.length === 0 ? (
               <div className="flex min-h-[100px] items-center justify-center text-center">
                 <p className="text-sm text-[var(--text-muted)]">
-                  No urgent emergency reports at this time.
+                  {t("noUrgentEmergencyReports")}
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {urgentReports.slice(0, 3).map((report) => (
                   <div
                     key={report.id}
-                    className="flex items-center justify-between gap-4 rounded-lg border border-[#F1D7DC] bg-[#FFF8F9] p-3"
+                    className="flex items-center justify-between gap-4 rounded-xl border border-slate-200/80 border-l-4 border-l-[#D90429] bg-white p-3.5 shadow-xs transition hover:bg-slate-50/70"
                   >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="rounded-full bg-[#FFF0F3] px-2.5 py-1 text-[11px] font-bold text-[#D90429]">
-                          {report.priority}
+                        <span className="rounded-md border border-red-200/60 bg-red-50 px-2 py-0.5 text-[11px] font-bold text-[#D90429]">
+                          {report.priority || "Urgent"}
                         </span>
 
-                        <span className="text-xs text-[var(--text-muted)]">
+                        <span className="text-xs font-semibold text-slate-500">
                           {report.report_type ||
                             report.type ||
                             "Emergency Report"}
                         </span>
                       </div>
 
-                      <p className="mt-1 truncate text-sm font-bold text-[var(--text-primary)]">
+                      <p className="mt-1.5 truncate text-sm font-bold text-[#101C2E]">
                         {report.description || "No description provided."}
                       </p>
 
-                      <p className="mt-1 truncate text-xs text-[var(--text-muted)]">
-                        {report.location || "Location not specified"}
+                      <p className="mt-1 flex items-center gap-1 truncate text-xs text-slate-500">
+                        <MapPin size={13} className="shrink-0 text-slate-400" />
+                        <span className="truncate">{report.location || "Location not specified"}</span>
                       </p>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => onNavigate?.("report-details", report)}
-                      className="shrink-0 rounded-lg bg-[#1F5FA6] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#1F5FA6]"
+                      className="shrink-0 rounded-lg bg-[#1F5FA6] px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-[#174A86] active:scale-95"
                     >
                       View
                     </button>
@@ -737,14 +737,16 @@ export default function Dashboard({
                     </div>
                   </>
                 ) : (
-                  <div className="flex min-h-[170px] flex-col items-center justify-center text-center">
-                    <Check size={34} className="text-[#2ED47A]" />
+                  <div className="flex min-h-[170px] flex-col items-center justify-center p-6 text-center">
+                    <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                      <Check size={26} strokeWidth={2.5} />
+                    </div>
 
-                    <h3 className="mt-3 font-bold text-[var(--text-primary)]">
+                    <h3 className="mt-1 text-base font-bold text-[#101C2E]">
                       {t("noActiveIncidents")}
                     </h3>
 
-                    <p className="mt-1 text-sm text-[var(--text-muted)]">
+                    <p className="mt-1 max-w-sm text-xs text-slate-500">
                       {t("allIncidentsResolved")}
                     </p>
                   </div>
@@ -757,61 +759,62 @@ export default function Dashboard({
             ================================================ */}
 
             <section className="flex min-h-[220px] flex-1 flex-col rounded-xl border border-[var(--border-soft)] bg-white p-4 shadow-sm">
-              <h2 className="text-[18px] font-bold text-[var(--text-primary)]">
-                {t("priorityOverview")}
-              </h2>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 className="text-[17px] font-bold text-[var(--text-primary)]">
+                  {t("priorityOverview")}
+                </h2>
+                <span className="text-xs font-semibold text-slate-400">
+                  {priorityTotal} {t("reports") || "Reports"}
+                </span>
+              </div>
 
-              <div className="mt-3 flex flex-1 flex-col items-center gap-6 sm:flex-row">
+              <div className="mt-4 flex flex-1 flex-col items-center gap-6 sm:flex-row">
                 {/* DONUT */}
-
                 <div className="relative flex shrink-0 items-center justify-center">
                   <div
-                    className="relative h-[130px] w-[130px] rounded-full"
+                    className="relative h-[136px] w-[136px] rounded-full shadow-inner transition-transform hover:scale-105 duration-300"
                     style={{
                       background:
                         priorityTotal > 0
                           ? `conic-gradient(
-          #D90429 0deg ${(priorityCounts.Critical / priorityTotal) * 360}deg,
-          #FF2D55 ${(priorityCounts.Critical / priorityTotal) * 360}deg ${
-            ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) *
-            360
-          }deg,
-          #FF8C42 ${
-            ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) *
-            360
-          }deg ${
-            ((priorityCounts.Critical +
-              priorityCounts.High +
-              priorityCounts.Moderate) /
-              priorityTotal) *
-            360
-          }deg,
-          #38BDF8 ${
-            ((priorityCounts.Critical +
-              priorityCounts.High +
-              priorityCounts.Moderate) /
-              priorityTotal) *
-            360
-          }deg 360deg
-        )`
-                          : "#E8ECF1",
+                              #D90429 0deg ${(priorityCounts.Critical / priorityTotal) * 360}deg,
+                              #FF2D55 ${(priorityCounts.Critical / priorityTotal) * 360}deg ${
+                                ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) * 360
+                              }deg,
+                              #FF8C42 ${
+                                ((priorityCounts.Critical + priorityCounts.High) / priorityTotal) * 360
+                              }deg ${
+                                ((priorityCounts.Critical +
+                                  priorityCounts.High +
+                                  priorityCounts.Moderate) /
+                                  priorityTotal) *
+                                360
+                              }deg,
+                              #38BDF8 ${
+                                ((priorityCounts.Critical +
+                                  priorityCounts.High +
+                                  priorityCounts.Moderate) /
+                                  priorityTotal) *
+                                360
+                              }deg 360deg
+                            )`
+                          : "#F1F5F9",
                     }}
                   >
-                    <div className="absolute inset-[21px] flex flex-col items-center justify-center rounded-full bg-white">
-                      <span className="text-[25px] font-bold text-[var(--text-primary)]">
+                    <div className="absolute inset-[16px] flex flex-col items-center justify-center rounded-full bg-white shadow-xs">
+                      <span className="text-2xl font-black leading-none text-[#101C2E]">
                         {priorityTotal}
                       </span>
 
-                      <span className="text-[11px] text-[var(--text-muted)]">
-                        {t("prioritizedReportsLabel")}
+                      <span className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        {t("reports") || "Reports"}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* LEGEND */}
-
-                <div className="flex w-full min-w-0 flex-1 flex-col justify-center gap-2">
+                <div className="grid w-full min-w-0 flex-1 grid-cols-1 gap-2 sm:grid-cols-2">
                   {priorityData.map((item) => {
                     const percentage =
                       priorityTotal > 0
@@ -821,23 +824,25 @@ export default function Dashboard({
                     return (
                       <div
                         key={item.labelKey}
-                        className="grid grid-cols-[16px_1fr_auto_auto] items-center gap-3"
+                        className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2 transition hover:bg-slate-100/70"
                       >
-                        <span
-                          className={`h-3.5 w-3.5 rounded-full ${item.color}`}
-                        />
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span
+                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.color}`}
+                          />
+                          <span className="truncate text-xs font-semibold text-slate-700">
+                            {t(item.labelKey)}
+                          </span>
+                        </div>
 
-                        <span className="text-[15px] font-medium text-[#43516A]">
-                          {t(item.labelKey)}
-                        </span>
-
-                        <span className="font-bold text-[var(--text-primary)]">
-                          {item.value}
-                        </span>
-
-                        <span className="text-sm text-[var(--text-muted)]">
-                          {percentage}%
-                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-xs font-extrabold text-[#101C2E]">
+                            {item.value}
+                          </span>
+                          <span className="min-w-[34px] rounded bg-white px-1.5 py-0.5 text-right text-[10px] font-bold text-slate-500 shadow-xs border border-slate-200/60">
+                            {percentage}%
+                          </span>
+                        </div>
                       </div>
                     );
                   })}
@@ -897,9 +902,15 @@ export default function Dashboard({
                 </p>
               </div>
             ) : dashboardUpdates.length === 0 ? (
-              <div className="flex flex-1 items-center justify-center">
-                <p className="text-sm text-[var(--text-muted)]">
+              <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
+                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                  <ClipboardList size={22} />
+                </div>
+                <p className="text-sm font-bold text-[#101C2E]">
                   {t("noIncidentUpdates")}
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  New response activities will appear here.
                 </p>
               </div>
             ) : (

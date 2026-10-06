@@ -78,6 +78,8 @@ const translations = {
     // DASHBOARD
     nonEmergencyReports: "Non-Emergency Reports",
     nonEmergencyCases: "Non-emergency cases",
+    urgentEmergencyReports: "Urgent Emergency Reports",
+    noUrgentEmergencyReports: "No urgent emergency reports at this time.",
     moderate: "Moderate",
     prioritizedReportsLabel: "Prioritized Reports",
 
@@ -177,6 +179,8 @@ const translations = {
     // DASHBOARD
     nonEmergencyReports: "Mga Non-Emergency na Ulat",
     nonEmergencyCases: "Mga non-emergency na kaso",
+    urgentEmergencyReports: "Mga Apurahang Ulat ng Emergency",
+    noUrgentEmergencyReports: "Walang mga apurahang ulat ng emergency sa ngayon.",
     moderate: "Moderate",
     prioritizedReportsLabel: "Mga Naprayoridad na Ulat",
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Eye,
   EyeOff,
-  User,
+  Mail,
   Lock,
   AlertCircle,
   Loader2,
@@ -44,12 +44,23 @@ function AdminLogin({ onLogin }) {
     setError("");
   };
 
+  const validateEmail = (value) => {
+    const trimmed = value.trim();
+    if (!trimmed) return "Email is required";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) return "Please enter a valid email address";
+    return "";
+  };
+
   const handleBlur = (field) => {
-    if (field === "username" && !username.trim()) {
-      setFieldErrors((current) => ({
-        ...current,
-        username: "Username is required",
-      }));
+    if (field === "username") {
+      const emailError = validateEmail(username);
+      if (emailError) {
+        setFieldErrors((current) => ({
+          ...current,
+          username: emailError,
+        }));
+      }
     }
 
     if (field === "password" && !password.trim()) {
@@ -66,8 +77,9 @@ const handleSubmit = async (event) => {
 
   setError("");
 
+  const emailError = validateEmail(username);
   const errors = {
-    username: !username.trim() ? "Username is required" : "",
+    username: emailError,
     password: !password.trim() ? "Password is required" : "",
   };
 
@@ -199,12 +211,12 @@ const handleSubmit = async (event) => {
               </label>
 
               <div className="relative">
-                <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
                 <input
                   ref={usernameRef}
                   id="username"
-                  type="text"
+                  type="email"
                   value={username}
                   onChange={(event) => {
                     setUsername(event.target.value);
@@ -214,7 +226,7 @@ const handleSubmit = async (event) => {
                   onFocus={() => handleFocus("username")}
                   onBlur={() => handleBlur("username")}
                   placeholder="you@example.com"
-                  autoComplete="username"
+                  autoComplete="email"
                   className={`${inputClass("username")} pr-3`}
                 />
               </div>

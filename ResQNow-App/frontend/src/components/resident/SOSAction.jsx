@@ -65,9 +65,18 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
     return 'Life-threatening emergency only';
   }, [phase]);
 
+  const triggerHaptic = (pattern = [40]) => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(pattern);
+      } catch {}
+    }
+  };
+
   const executeSos = async ({ reuseLocation = false } = {}) => {
     if (isBusy) return;
 
+    triggerHaptic([60, 40, 100]);
     const idempotencyKey = lastKey || getOrCreateSosKey();
     setLastKey(idempotencyKey);
     setLastError('');
@@ -91,8 +100,10 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
 
       clearPendingSosKey();
       setPhase('success');
+      triggerHaptic([100, 50, 150, 50, 200]);
       onCreated?.(result.report);
     } catch (error) {
+      triggerHaptic([150, 80, 150]);
       setLastError(
         error?.message ||
           'ResQNow could not confirm online delivery. Use the SMS or hotline fallback now.'
@@ -110,6 +121,7 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
     if (phase !== 'idle') return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
+    triggerHaptic([20]);
     draggingRef.current = true;
     dragStartRef.current = event.clientX - dragX;
     event.currentTarget.setPointerCapture?.(event.pointerId);
@@ -127,6 +139,7 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
 
     if (swipePercent >= SWIPE_THRESHOLD) {
       setDragX(maxTravel);
+      triggerHaptic([80, 50, 120]);
       executeSos();
       return;
     }
@@ -147,6 +160,7 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
     if (phase !== 'idle') return;
     if (event?.pointerType === 'mouse' && event.button !== 0) return;
 
+    triggerHaptic([30]);
     window.clearTimeout(holdTimerRef.current);
     window.cancelAnimationFrame(holdAnimationRef.current);
     holdStartRef.current = Date.now();
@@ -155,6 +169,7 @@ export default function SOSAction({ user, hotline, onCreated, onCallHotline }) {
 
     holdTimerRef.current = window.setTimeout(() => {
       setHoldProgress(1);
+      triggerHaptic([100, 60, 150]);
       executeSos();
     }, HOLD_MS);
   };

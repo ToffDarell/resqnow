@@ -11,7 +11,7 @@ import {
 
 import LanguageContext from "../../context/LanguageContextValue";
 
-function Topbar({ currentUser, onMenuClick }) {
+function Topbar({ currentUser, onMenuClick, onSearch }) {
   const languageContext = useContext(LanguageContext);
 
   const t = languageContext?.t || ((key) => key);
@@ -124,10 +124,9 @@ function Topbar({ currentUser, onMenuClick }) {
 
     if (!query) return;
 
-    console.log("Searching for:", query);
-
-    // Frontend placeholder.
-    // This will later connect to Laravel API search.
+    if (onSearch) {
+      onSearch(query);
+    }
   };
 
   const getNotificationColor = (type) => {
@@ -341,28 +340,6 @@ function Topbar({ currentUser, onMenuClick }) {
                 </button>
               </div>
             )}
-          </div>
-
-          {/* ADMIN PROFILE */}
-          <div className="flex items-center gap-3 pl-1">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#101C2E] text-xs font-semibold text-white">
-              {(currentUser?.name || "A")
-                .split(" ")
-                .map((part) => part[0])
-                .slice(0, 2)
-                .join("")
-                .toUpperCase()}
-            </div>
-
-            <div className="hidden min-w-0 md:block">
-              <p className="truncate text-sm font-medium text-[var(--text-primary)]">
-                {currentUser?.name || t("administrator")}
-              </p>
-
-              <p className="truncate text-xs capitalize text-[var(--text-muted)]">
-                {currentUser?.role || t("barangayPersonnel")}
-              </p>
-            </div>
           </div>
         </div>
       </div>

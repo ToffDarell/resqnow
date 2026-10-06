@@ -121,6 +121,8 @@ const translations = {
     nonEmergencyCases: "Non-emergency cases",
     awaitingReview: "Awaiting review",
     successfullyResolved: "Successfully resolved",
+    urgentEmergencyReports: "Urgent Emergency Reports",
+    noUrgentEmergencyReports: "No urgent emergency reports at this time.",
 
     activeIncident: "Active Incident",
     activeIncidentStatus: "Active incident",
@@ -983,6 +985,8 @@ const translations = {
     nonEmergencyCases: "Mga non-emergency na kaso",
     awaitingReview: "Naghihintay ng pagsusuri",
     successfullyResolved: "Matagumpay na nalutas",
+    urgentEmergencyReports: "Mga Apurahang Ulat ng Emergency",
+    noUrgentEmergencyReports: "Walang mga apurahang ulat ng emergency sa ngayon.",
 
     activeIncident: "Aktibong Insidente",
 

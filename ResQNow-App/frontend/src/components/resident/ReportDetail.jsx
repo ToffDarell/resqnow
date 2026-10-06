@@ -98,6 +98,13 @@ function getResidentTimelineLabel(status) {
   }
 }
 
+function getStageNumber(status) {
+  if (['Resolved', 'Closed'].includes(status)) return 4;
+  if (['Assigned', 'In Progress', 'Responders En Route', 'Responded', 'Acknowledged'].includes(status)) return 3;
+  if (['Verified', 'For Prioritization', 'Prioritized'].includes(status)) return 2;
+  return 1;
+}
+
 // ============ TIMELINE STYLE ============
 
 function getTimelineStyle(status) {
@@ -713,11 +720,31 @@ export default function ReportDetail() {
 
               {report.subcategory && (
                 <p className="text-[12px] text-resqnow-muted mt-0.5">
-                  {
-                    report.subcategory
-                  }
+                  {report.subcategory}
                 </p>
               )}
+
+              {/* 4-Stage Visual Progress Bar */}
+              <div className="mt-3.5 pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                  <span>Stage {getStageNumber(report.status)} of 4</span>
+                  <span className="font-extrabold text-bgy-blue">
+                    {report.status}
+                  </span>
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  <div className={`h-2 rounded-full ${getStageNumber(report.status) >= 1 ? 'bg-bgy-blue' : 'bg-slate-200'}`} />
+                  <div className={`h-2 rounded-full ${getStageNumber(report.status) >= 2 ? 'bg-bgy-blue' : 'bg-slate-200'}`} />
+                  <div className={`h-2 rounded-full ${getStageNumber(report.status) >= 3 ? 'bg-bgy-orange' : 'bg-slate-200'}`} />
+                  <div className={`h-2 rounded-full ${getStageNumber(report.status) >= 4 ? 'bg-bgy-green' : 'bg-slate-200'}`} />
+                </div>
+                <div className="grid grid-cols-4 gap-1 mt-1 text-[9px] text-slate-500 font-semibold text-center">
+                  <span className={getStageNumber(report.status) >= 1 ? 'text-bgy-blue font-bold' : ''}>Submitted</span>
+                  <span className={getStageNumber(report.status) >= 2 ? 'text-bgy-blue font-bold' : ''}>Verified</span>
+                  <span className={getStageNumber(report.status) >= 3 ? 'text-bgy-orange font-bold' : ''}>Dispatched</span>
+                  <span className={getStageNumber(report.status) >= 4 ? 'text-bgy-green font-bold' : ''}>Resolved</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
